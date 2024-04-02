@@ -2,6 +2,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const app = express();
+const mysql = require('mysql');
+const connection_details = require('./DB INSERT (sample)/connection.json');
+// const connection = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'username',
+//     password: 'yourpassword',
+//     database: 'databasename',
+//     port: 3306,
+//     debug: false
+// });
 const choices = {
     "city": ["Bacoor City", "Calamba City", "Cebu City", "Dagupan City","Dasmariñas City", "Dumaguete City", "General Santos City","Iligan City", "Iloilo City", "Kananga", "Las Piñas","Legazpi City", "Liloan", "Makati", "Makilala", "Malabon","Malolos City", "Mandaluyong", "Manila", "Manito", "Muntinlupa","Olongapo City", "Pangil", "Parañaque", "Pasig", "Pozzorubio","Quezon City", "San Fernando City", "San Juan", "Santa Cruz","Santa Rosa City", "Siniloan", "Taguig", "Valencia", "Valenzuela"],
     "province": ["Albay", "Bulacan", "Cavite", "Cebu", "Cotabato", "Iloilo","La Union", "Laguna", "Lanao del Norte", "Leyte", "Manila","Negros Oriental", "Pangasinan", "South Cotabato", "Zambales"],
@@ -46,5 +56,6 @@ app.get("/delete", (req, res) => {
 
 
 app.listen(3000, () =>{
-    console.log("Server listening on port 3000.")
+    console.log("Server listening on port 3000.");
+    console.log(connection_details);
 })
