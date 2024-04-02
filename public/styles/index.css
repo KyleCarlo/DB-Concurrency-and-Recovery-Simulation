@@ -30,3 +30,8 @@ body > section {
     text-align: center;
     color: var(--orange);
 }
+
+#create > form{
+    display: flex;
+    flex-direction: column;
+}
