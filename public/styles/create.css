@@ -1,0 +1,152 @@
+:root{
+    --primary-color: #192a32;
+    --secondary-color: #A8BEC9;
+    --blue: #31C4BE;
+    --orange: #f2b236;
+    --btn-shadow: #718794;
+    --def-font: 'Montserrat', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: var(--secondary-color);
+    margin-bottom: 18px;
+}
+
+body {
+    padding: 10px;
+    background-color: var(--primary-color);
+    font-family: var(--def-font);
+    color: var(--secondary-color);
+}
+
+.title{
+    margin-top: 18px;
+    text-align: center;
+    color: var(--orange);
+}
+
+.label{
+    color: var(--blue);
+}
+
+.inputString {
+    border: none;
+    background-color: var(--secondary-color);
+    box-shadow: 0px 0px 5px var(--blue);
+    resize: none;
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px;
+}
+
+.radio{
+    margin-top: 5px;
+    width: 150px;
+}
+
+.radio input{
+    position: relative;
+    top: 2px;
+    margin: 0 10px;
+}
+
+button {
+    width: 300px;
+    background-color: var(--secondary-color);
+    font-family: inherit;
+    font-weight: bolder;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px var(--btn-shadow);
+    position: relative;
+    top: 0px;
+    transition: 0.1s all;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover{
+    top: 4px;
+    box-shadow: 0 0 var(--btn-shadow);
+    opacity: 0.8;
+}
+
+form{
+    display: grid;
+    padding: 20px;
+    grid-gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    /* grid-template-rows: repeat(4, 1fr); */
+    grid-template-areas: "a a a a"
+                         "a1 a2 a3 a3"
+                         "h h h h"
+                         "h1 h2 h3 h4"
+                         "p p p p"
+                         "p1 p2 p2 p2"
+                         "b1 b1 b1 b1";
+}
+
+.type{
+    grid-area: a1;
+}
+
+.Virtual{
+    grid-area: a2;
+}
+
+.IsHospital{
+    grid-area: h1;
+}
+
+.City{
+    grid-area: h2;
+}
+
+.Province{
+    grid-area: h3;
+}
+
+.RegionName{
+    grid-area: h4;
+}
+
+.mainspecialty{
+    grid-area: a3;
+}
+
+.patientage{
+    grid-area: p1;
+}
+
+.patientgender{
+    grid-area: p2;
+}
+
+button{
+    grid-area: b1;
+    justify-self: center;
+}
+
+.subtitle{
+    font-size: 1.5rem;
+}
+
+.a {
+    grid-area: a;
+}
+
+.h{
+    grid-area: h;
+}
+
+.p{
+    grid-area: p;
+}

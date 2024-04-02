@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB Concurrency & Recovery</title>
+    <link rel="stylesheet" href="styles/update.css">
+</head>
+<body>
+    <h1 class="title">Edit Appointment</h1>
+    <form action="">
+        <!-- APPT ID -->
+        <div class="apptid">
+            <label for="apptid"><h1 class="subtitle">Appointment ID to Update: </h1></label>
+            <input class="inputString" name="apptid" type="text">
+        </div>
+        <h1 class="subtitle a">Updated Appointment Information</h1>
+        <!-- TYPE -->
+        <div class="type">
+            <p class="label">Appointment Type</p>
+            <div class="radio">
+                <input type="radio" id="consultation" name="type" value="Consultation">
+                <label for="consultation">Consultation</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="inpatient" name="type" value="Inpatient">
+                <label for="inpatient">Inpatient</label>
+            </div>
+        </div>
+        <!-- VIRTUAL -->
+        <div class="Virtual">
+            <p class="label">Mode of Appointment</p>
+            <div class="radio">
+                <input type="radio" id="virtual" name="Virtual" value="1">
+                <label for="consultation">Virtual</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="f2f" name="Virtual" value="0">
+                <label for="f2f">Face-to-Face</label>
+            </div>
+        </div>
+        <!-- MAIN SPECIALTY -->
+        <div class="mainspecialty">
+            <label class="label" for="mainspecialty">Doctor's Specialty</label>
+            <select class="inputString" name="mainspecialty">
+                <% specialties.forEach((specialty) => { %>
+                    <option value="<%= specialty %>"><%= specialty %></option>
+                <% }) %>
+            </select>
+        </div>
+
+        <h1 class="subtitle h">Updated Hospital Information</h1>
+        <!-- ISHOSPITAL -->
+        <div class="IsHospital">
+            <p class="label">Hospital or Clinic</p>
+            <div class="radio">
+                <input type="radio" id="hospital" name="IsHospital" value="1">
+                <label for="hospital">Hospital</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="clinic" name="IsHospital" value="0">
+                <label for="clinic">Clinic</label>
+            </div>
+        </div>
+        <!-- CITY -->
+        <div class="City">
+            <label class="label" for="City">Hospital/Clinic City</label>
+            <select class="inputString" name="City">
+                <% cities.forEach((city) => { %>
+                    <option value="<%= city %>"><%= city %></option>
+                <% }) %>
+            </select>
+        </div>
+        <!-- PROVINCE -->
+        <div class="Province">
+            <label class="label" for="Province">Hospital/Clinic Province</label>
+            <select class="inputString" name="Province">
+                <% provinces.forEach((province) => { %>
+                    <option value="<%= province %>"><%= province %></option>
+                <% }) %>
+            </select>
+        </div>
+        <!-- REGION NAME -->
+        <div class="RegionName">
+            <label class="label" for="RegionName">Hospital/Clinic Region</label>
+            <select class="inputString" name="RegionName">
+                <% regions.forEach((region) => { %>
+                    <option value="<%= region %>"><%= region %></option>
+                <% }) %>
+            </select>
+        </div>
+        
+        <h1 class="subtitle p">Updated Patient Information</h1>
+        <!-- PATIENT AGE -->
+        <div class="patientage">
+            <label class="label" for="patientage">Patient Age</label>
+            <input class="inputString" type="number" min="0" max="100">
+        </div>
+        <!-- PATIENT GENDER -->
+        <div class="patientgender">
+            <p class="label">Patient Sex</p>
+            <div class="radio">
+                <input type="radio" id="female" name="patientgender" value="FEMALE">
+                <label for="female">Female</label>
+            </div>
+            <div class="radio">
+                <input type="radio" id="male" name="patientgender" value="MALE">
+                <label for="male">Male</label>
+            </div>
+        </div>
+        <!-- SUBMIT BUTTON -->
+        <button type="submit" name="button">Create Appointment</button>
+    </form>
+</body>
+</html>

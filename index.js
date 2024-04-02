@@ -13,14 +13,37 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-app.get("/", function(req, res){
-    res.render('index', {
-        cities:choices.city,
-        provinces:choices.province,
-        regions:choices.region,
-        specialties:choices.specialty
-    });
+app.get("/", (req, res) => {
+    res.render('index');
 });
+
+app.get("/create", (req, res) => {
+    res.render('create', {
+        cities: choices.city,
+        provinces: choices.province,
+        regions: choices.region,
+        specialties: choices.specialty
+    });
+})
+
+app.get("/update", (req, res) => {
+    res.render('update', {
+        cities: choices.city,
+        provinces: choices.province,
+        regions: choices.region,
+        specialties: choices.specialty
+    });
+})
+
+app.get("/read", (req, res) => {
+    res.render('read');
+});
+
+app.get("/delete", (req, res) => {
+    res.render('delete');
+});
+
+
 
 app.listen(3000, () =>{
     console.log("Server listening on port 3000.")
