@@ -60,7 +60,7 @@
             </select>
             <!-- PATIENT AGE -->
             <label for="patientage">Patient Age</label>
-            <input type="number">
+            <input type="number" min="0" max="100">
             <!-- PATIENT GENDER -->
             <label for="patientgender">Patient Sex</label>
             <select name="patientgender">
@@ -71,14 +71,93 @@
             <button type="submit" name="button">Create Appointment</button>
         </form>
     </section>
-    <section id="read">
-        <h1 class="title">Read</h1>
-    </section>
+        
     <section id="update">
         <h1 class="title">Update</h1>
+        <form action="">
+            <!-- APPOINTMENT ID -->
+            <label for="apptid">Appointment ID</label>
+            <select name="apptid">
+            </select>
+            <!-- APPOINTMENT TYPE -->
+            <label for="type">Appointment Type</label>
+            <select name="type">
+                <option value="Consultation">Consultation</option>
+                <option value="Inpatient">Inpatient</option>
+            </select>
+            <!-- VIRTUAL -->
+            <label for="virtual">Virtual or F2F</label>
+            <select name="virtual">
+                <option value="1">Virtual</option>
+                <option value="0">F2F</option>
+            </select>
+            <!-- ISHOSPITAL -->
+            <label for="IsHospital">Hospital or Clinic</label>
+            <select name="IsHospital">
+                <option value="1">Hospital</option>
+                <option value="0">Clinic</option>
+            </select>
+            <label for="hospitalname">Hospital/Clinic Name</label>
+            <input type="text">
+            <!-- CITY -->
+            <label for="City">Hospital/Clinic City</label>
+            <select name="City">
+                <% cities.forEach((city) => { %>
+                    <option value="<%= city %>"><%= city %></option>
+                <% }) %>
+            </select>
+            <!-- PROVINCE -->
+            <label for="Province">Hospital/Clinic Province</label>
+            <select name="Province">
+                <% provinces.forEach((province) => { %>
+                    <option value="<%= province %>"><%= province %></option>
+                <% }) %>
+            </select>
+            <!-- REGION NAME -->
+            <label for="RegionName">Hospital/Clinic Region</label>
+            <select name="RegionName">
+                <% regions.forEach((region) => { %>
+                    <option value="<%= region %>"><%= region %></option>
+                <% }) %>
+            </select>
+            <!-- MAIN SPECIALTY -->
+            <label for="mainspecialty">Specialty</label>
+            <select name="mainspecialty">
+                <% specialties.forEach((specialty) => { %>
+                    <option value="<%= specialty %>"><%= specialty %></option>
+                <% }) %>
+            </select>
+            <!-- PATIENT AGE -->
+            <label for="patientage">Patient Age</label>
+            <input type="number" min="0" max="100">
+            <!-- PATIENT GENDER -->
+            <label for="patientgender">Patient Sex</label>
+            <select name="patientgender">
+                <option value="FEMALE">Female</option>
+                <option value="MALE">Male</option>
+            </select>
+            <!-- SUBMIT BUTTON -->
+            <button type="submit" name="button">Update Appointment</button>
+        </form>
     </section>
-    <section id="delete">
-        <h1 class="title">Delete</h1>
+
+    <section id="read_delete">
+        <div class="read">
+            <h1 class="title">Read</h1>
+            <form action="">
+                <label for="apptid">Search Appointment ID</label>
+                <input type="text" name="apptid">
+                <button type="submit" name="button">Search Appointment</button>
+            </form>
+        </div>
+        <div class="delete">
+            <h1 class="title">Delete</h1>
+            <form action="">
+                <label for="apptid">Delete Appointment ID</label>
+                <input type="text" name="apptid">
+                <button type="submit" name="button">Delete Appointment</button>
+            </form>
+        </div>
     </section>
 </body>
 </html>

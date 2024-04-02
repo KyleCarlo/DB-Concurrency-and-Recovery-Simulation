@@ -20,6 +20,7 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+    align-items: center;
 }
 
 body > section {
@@ -29,9 +30,54 @@ body > section {
 .title{
     text-align: center;
     color: var(--orange);
+    margin-bottom: 10px;
 }
 
-#create > form{
+#create > form, #update > form{
     display: flex;
     flex-direction: column;
+}
+
+#read_delete{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 80vh;
+}
+
+#read_delete form {
+    display: flex;
+    flex-direction: column;
+}
+
+button{
+    background-color: var(--secondary-color);
+    font-family: inherit;
+    font-weight: bolder;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 4px var(--btn-shadow);
+    position: relative;
+    top: 0px;
+    transition: 0.1s all;
+    cursor: pointer;
+    margin: 10px;
+}   
+
+button:hover{
+    opacity: 0.8;
+    top: 4px;
+    box-shadow:none;
+}
+
+input, select{
+    border: none;
+    background-color: var(--secondary-color);
+    box-shadow: 0px 0px 5px var(--blue);
+    resize: none;
+    /* width: 80%; */
+    padding: 2.5px 0;
+    border-radius: 5px;
+    margin: 5px 0 10px 0;
 }
