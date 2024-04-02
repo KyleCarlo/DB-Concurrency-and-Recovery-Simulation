@@ -155,3 +155,14 @@ button{
 .apptid{
     grid-area: 0;
 }
+
+.return{
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
+.return svg:hover{
+    transition: 0.3s all;
+    fill: var(--orange);
+}
