@@ -97,3 +97,43 @@ form *{
     transition: 0.3s all;
     fill: var(--orange);
 }
+
+/* ERROR */
+.error{
+    color: black;
+    font-size: 1rem;
+    text-align: center;
+    padding: 20px 20px 20px 5px;
+    position: fixed;
+    top: 50px;
+    /* left: calc(100% + 300px); */
+    background-color: var(--secondary-color);
+    width: 280px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error *{
+    margin: 0 10px;
+}
+
+.error-show {
+    animation: slideIn 3s forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        left: calc(100% + 290px);
+    }
+    10% {
+        left: calc(100% - 290px);
+    }
+    90% {
+        left: calc(100% - 290px);
+    }
+    100% {
+        left: calc(100% + 290px);
+    }
+}

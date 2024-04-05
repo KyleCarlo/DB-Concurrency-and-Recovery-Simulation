@@ -2,40 +2,40 @@ import mysql from 'mysql2';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const createDB = (port) => mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PW,
-    database: process.env.DB_NAME,
-    port: parseInt(port),
-    multipleStatements: true
-});
-
-function query(db) {
+function query(db, table) {
     return async (q, values, mode) => {
         try {
-            await db.query('LOCK TABLES movies ' + mode)
-            const results = await db.query(q, values)
-            await db.query('UNLOCK TABLES')
-            await db.end()
-            return results
+            await db.promise().query('LOCK TABLES appointments ' + mode)
+            const results = await db.promise().query(q, values);
+            await db.promise().query('UNLOCK TABLES')
+            // await db.promise().end()
+            return results[0];
         } catch (e) {
             try {
-            await db.query('ROLLBACK')
-            await db.query('UNLOCK TABLES')
-            await db.end()
+                await db.promise().query('ROLLBACK')
+                await db.promise().query('UNLOCK TABLES')
+                // await db.promise().end()
             } catch (e) {
-            throw Error(e.message)
+                throw Error(e.message)
             }
             throw Error(e.message)
         }
     }
 }
 
-export const db1 = createDB(process.env.PORT0);
-export const db2 = createDB(process.env.PORT1);
-export const db3 = createDB(process.env.PORT2);
+const createDB = (port, db) => mysql.createConnection({
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.PW,
+    database: db,
+    port: parseInt(port),
+    multipleStatements: true
+});
 
-export const query1 = async (q, values, mode) => await query(db1)(q, values, mode)
-export const query2 = async (q, values, mode) => await query(db2)(q, values, mode)
-export const query3 = async (q, values, mode) => await query(db3)(q, values, mode)
+export const db1 = createDB(process.env.PORT0, process.env.DB0);
+export const db2 = createDB(process.env.PORT1, process.env.DB1);
+export const db3 = createDB(process.env.PORT2, process.env.DB2);
+
+export const query1 = async (q, values, mode) => await query(db1, process.env.TABLE0)(q, values, mode);
+export const query2 = async (q, values, mode) => await query(db2, process.env.TABLE1)(q, values, mode);
+export const query3 = async (q, values, mode) => await query(db3, process.env.TABLE2)(q, values, mode);

@@ -7,6 +7,7 @@ const app = express();
 dotenv.config();
 
 app.set('view engine', 'ejs');
+app.set('access', 0);
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.use('/',router);

@@ -1,7 +1,8 @@
 import { Router } from "express";
-import mysql from "mysql2";
+import {db1, db2, db3, query1, query2, query3} from "./lib/dbs.js";
 
 const router = Router();
+const queries = [query1, query2, query3];
 
 const choices = {
     "city": ["Bacoor City", "Calamba City", "Cebu City", "Dagupan City","Dasmariñas City", "Dumaguete City", "General Santos City","Iligan City", "Iloilo City", "Kananga", "Las Piñas","Legazpi City", "Liloan", "Makati", "Makilala", "Malabon","Malolos City", "Mandaluyong", "Manila", "Manito", "Muntinlupa","Olongapo City", "Pangil", "Parañaque", "Pasig", "Pozzorubio","Quezon City", "San Fernando City", "San Juan", "Santa Cruz","Santa Rosa City", "Siniloan", "Taguig", "Valencia", "Valenzuela"],
@@ -34,38 +35,38 @@ router.get("/update", (req, res) => {
 
 // READ
 router.get("/read", (req, res) => {
-    res.render('read', {results: null, apptid: null});
+    res.render('read', {results: null, apptid: null, error: null});
 });
-router.post('/read', (req, res) => {
+
+router.post('/read', async (req, res) => {
     const apptid = req.body.apptid;
-    let connection = mysql.createConnection({
-        host: 'ccscloud.dlsu.edu.ph',
-        user: process.env.USER,
-        password: process.env.PW,
-        database: process.env.DB0,
-        port: parseInt(process.env.PORT0)
-    });
-    connection.connect((err) => {
-        if (err) {
-            console.error('Error connecting to MySQL database: ' + err.stack);
-            return;
-        }
-        console.log('Connected to MySQL database.');
-    });
-    connection.query(`SELECT * FROM luzvimin WHERE apptid="${apptid}";`, (err, results) => {
-        if (err) {
-            console.error('Error executing MySQL query: ' + err.stack);
-            return res.status(500).send('Error retrieving data from database');
-        } else {
-            res.render('read', {results: results[0], apptid: apptid});
-        }
-    });
-    connection.end();
+    const db_selected = req.app.get('access');
+    try {
+        let query = queries[db_selected]
+        let results = await query("SELECT * FROM appointments WHERE apptid=?;", [apptid], 'READ');
+        res.render('read', {results: results[0], apptid: apptid, error: null});
+    } catch (e) {
+        console.log(e.message);
+        return res.render('read', {results: null, apptid: null, error: {status: 'error', message: "Server error has occured!"}});
+    }
 });
 
 // DELETE
 router.get("/delete", (req, res) => {
-    res.render('delete');
+    res.render('delete',{error: null});
+});
+
+router.post('/delete', async (req, res) => {
+    const apptid = req.body.apptid;
+    const db_selected = req.app.get('access');
+    try {
+        let query = queries[db_selected];
+        await query("DELETE FROM appointments WHERE apptid=?;", [apptid], 'WRITE');
+        res.render('delete', {error: {status: 'ack', message: "Appointment deleted!"}});
+    } catch (e) {
+        console.log(e.message);
+        return res.render('delete', {error: {status: 'error', message: "Server error has occured!"}});
+    }
 });
 
 export default router;
