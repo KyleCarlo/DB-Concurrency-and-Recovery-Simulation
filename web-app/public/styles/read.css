@@ -97,3 +97,23 @@ form *{
     transition: 0.3s all;
     fill: var(--orange);
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /* background-color: var(--btn-shadow); */
+    margin: 20px 0 40px 0;
+    /* color: black; */
+    font-weight: 500;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ddd; /* Set border for all cells */
+}
+
+th {
+    color: white;
+    background-color: #000000;
+}
