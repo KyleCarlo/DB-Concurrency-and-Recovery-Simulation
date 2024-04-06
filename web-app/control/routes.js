@@ -22,7 +22,7 @@ router.get("/create", (req, res) => {
     res.render('create', {
         error: null
     });
-})
+});
 router.post('/create', async (req, res) => {
     const db_selected = req.app.get('access');
     let apptid = req.body.apptid;
