@@ -62,9 +62,9 @@ router.post('/create', async (req, res) => {
     delete req.body.button;
     console.log(req.body);
 
-    // handle blank age
+    // handle blank age and datetime
     if (req.body.patientage == ''){
-        req.body.patientage = 0;
+        req.body.patientage = null;
     }
 
     try {
@@ -95,9 +95,15 @@ router.post("/update", async (req, res) => {
     delete req.body.button;
     console.log(req.body);
 
-    // handle blank age
+    // handle blank age and datetime
     if (req.body.patientage == ''){
-        req.body.patientage = 0;
+        req.body.patientage = null;
+    }
+    if (req.body.StartTime == ''){
+        req.body.StartTime = null;
+    }
+    if (req.body.EndTime == ''){
+        req.body.EndTime = null;
     }
 
     try {

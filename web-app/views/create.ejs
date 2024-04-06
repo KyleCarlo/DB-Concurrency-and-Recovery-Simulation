@@ -174,6 +174,7 @@
     const provinceInput = document.querySelector(".Province .inputString");
     const cityInput = document.querySelector(".City .inputString");
     const specialtyInput = document.querySelector(".mainspecialty .inputString");
+    const statusInput = document.querySelector(".status .inputString");
     for (let index = 0; index < regions.length; index++) {
         let element = document.createElement("option");
         element.innerHTML = "<options value=" + regions[index] + ">" + regions[index] + "</options>";
@@ -217,5 +218,6 @@
         specialtyInput.append(element);
     }
     specialtyInput.selectedIndex = -1;
+    statusInput.selectedIndex = -1;
 </script>
 </html>
