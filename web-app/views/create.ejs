@@ -15,7 +15,7 @@
         </a>
     </div>
     <h1 class="title">Add Appointment</h1>
-    <form action="">
+    <form action="/create" method = "post" name = "appointmentForm">
         <h1 class="subtitle a">Appointment Information</h1>
         <!-- TYPE -->
         <div class="type">
@@ -96,7 +96,7 @@
         <!-- PATIENT AGE -->
         <div class="patientage">
             <label class="label" for="patientage">Patient Age</label>
-            <input class="inputString" type="number" min="0" max="100">
+            <input class="inputString" type="number" min="0" max="100" name = "patientage">
         </div>
         <!-- PATIENT GENDER -->
         <div class="patientgender">
@@ -113,5 +113,7 @@
         <!-- SUBMIT BUTTON -->
         <button type="submit" name="button">Create Appointment</button>
     </form>
+
+
 </body>
 </html>
