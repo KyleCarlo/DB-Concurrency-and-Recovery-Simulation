@@ -85,14 +85,14 @@ form{
     grid-gap: 20px;
     grid-template-columns: repeat(4, 1fr);
     /* grid-template-rows: repeat(4, 1fr); */
-    grid-template-areas: "0 0 0 0"
+    grid-template-areas: "z z z z"
                          "a a a a"
                          "a1 a2 a3 a3"
                          "h h h h"
                          "h1 h2 h3 h4"
-                         "p p p p"
-                         "p1 p2 p2 p2"
-                         "b1 b1 b1 b1";
+                         "h5 h5 h5 h5"
+                         "p p b1 b1"
+                         "p1 p2 b1 b1";
 }
 
 .type{
@@ -108,7 +108,7 @@ form{
 }
 
 .City{
-    grid-area: h2;
+    grid-area: h4;
 }
 
 .Province{
@@ -116,7 +116,7 @@ form{
 }
 
 .RegionName{
-    grid-area: h4;
+    grid-area: h2;
 }
 
 .mainspecialty{
@@ -153,7 +153,18 @@ button{
 }
 
 .apptid{
-    grid-area: 0;
+    grid-area: z;
+    display: flex;
+    align-items: center;
+    
+}
+
+.apptid .subtitle {
+    padding-right: 20px;
+}
+
+.apptid .inputString{
+    width: 50%;
 }
 
 .return{
@@ -165,4 +176,44 @@ button{
 .return svg:hover{
     transition: 0.3s all;
     fill: var(--orange);
+}
+
+/* ERROR */
+.error{
+    color: black;
+    font-size: 1rem;
+    text-align: center;
+    padding: 20px 20px 20px 5px;
+    position: fixed;
+    top: 50px;
+    /* left: calc(100% + 300px); */
+    background-color: var(--secondary-color);
+    width: 280px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error *{
+    margin: 0 10px;
+}
+
+.error-show {
+    animation: slideIn 3s forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        left: calc(100% + 290px);
+    }
+    10% {
+        left: calc(100% - 290px);
+    }
+    90% {
+        left: calc(100% - 290px);
+    }
+    100% {
+        left: calc(100% + 290px);
+    }
 }

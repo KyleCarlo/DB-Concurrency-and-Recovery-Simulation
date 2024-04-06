@@ -7,6 +7,27 @@
     <link rel="stylesheet" href="styles/update.css">
 </head>
 <body>
+    <% if (error != null) {%>
+        <div class="error <%if (error!=null) {%> error-show <%}%>">
+            <%if (error.status == 'error') {%>
+                <svg class='error-ico' fill="red" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                    width="30px" height="30px" viewBox="0 0 478.125 478.125"
+                    xml:space="preserve">
+                        <circle cx="239.904" cy="314.721" r="35.878"/>
+                        <path d="M256.657,127.525h-31.9c-10.557,0-19.125,8.645-19.125,19.125v101.975c0,10.48,8.645,19.125,19.125,19.125h31.9
+                            c10.48,0,19.125-8.645,19.125-19.125V146.65C275.782,136.17,267.138,127.525,256.657,127.525z"/>
+                        <path d="M239.062,0C106.947,0,0,106.947,0,239.062s106.947,239.062,239.062,239.062c132.115,0,239.062-106.947,239.062-239.062
+                            S371.178,0,239.062,0z M239.292,409.734c-94.171,0-170.595-76.348-170.595-170.596c0-94.248,76.347-170.595,170.595-170.595
+                            s170.595,76.347,170.595,170.595C409.887,333.387,333.464,409.734,239.292,409.734z"/>
+                </svg>
+            <% } else {%>
+                <svg class="ack-ico" width="30px" height="30px" viewBox="0 0 24 24" fill="green" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM16.0303 8.96967C16.3232 9.26256 16.3232 9.73744 16.0303 10.0303L11.0303 15.0303C10.7374 15.3232 10.2626 15.3232 9.96967 15.0303L7.96967 13.0303C7.67678 12.7374 7.67678 12.2626 7.96967 11.9697C8.26256 11.6768 8.73744 11.6768 9.03033 11.9697L10.5 13.4393L12.7348 11.2045L14.9697 8.96967C15.2626 8.67678 15.7374 8.67678 16.0303 8.96967Z" />
+                </svg>
+            <% } %>
+            <p><%=error.message%></p>
+        </div>
+    <% }%>
     <div class="return">
         <a href="/">
             <svg width="30px" height="30px" viewBox="-112.64 -112.64 1249.28 1249.28" xmlns="http://www.w3.org/2000/svg" fill="white">
@@ -50,9 +71,7 @@
         <div class="mainspecialty">
             <label class="label" for="mainspecialty">Doctor's Specialty</label>
             <select class="inputString" name="mainspecialty">
-                <% specialties.forEach((specialty) => { %>
-                    <option value="<%= specialty %>"><%= specialty %></option>
-                <% }) %>
+                <!-- INSERT SPECIALTIES -->
             </select>
         </div>
 
@@ -69,39 +88,37 @@
                 <label for="clinic">Clinic</label>
             </div>
         </div>
-        <!-- CITY -->
-        <div class="City">
-            <label class="label" for="City">Hospital/Clinic City</label>
-            <select class="inputString" name="City">
-                <% cities.forEach((city) => { %>
-                    <option value="<%= city %>"><%= city %></option>
-                <% }) %>
+        <!-- REGION NAME -->
+        <div class="RegionName">
+            <label class="label" for="RegionName">Hospital/Clinic Region</label>
+            <select class="inputString" name="RegionName">
+                <!-- INSERT REGIONS -->
             </select>
         </div>
         <!-- PROVINCE -->
         <div class="Province">
             <label class="label" for="Province">Hospital/Clinic Province</label>
-            <select class="inputString" name="Province">
-                <% provinces.forEach((province) => { %>
-                    <option value="<%= province %>"><%= province %></option>
-                <% }) %>
+            <select class="inputString" name="Province" disabled>
+                <!-- INSERT PROVINCES -->
             </select>
         </div>
-        <!-- REGION NAME -->
-        <div class="RegionName">
-            <label class="label" for="RegionName">Hospital/Clinic Region</label>
-            <select class="inputString" name="RegionName">
-                <% regions.forEach((region) => { %>
-                    <option value="<%= region %>"><%= region %></option>
-                <% }) %>
+        <!-- CITY -->
+        <div class="City">
+            <label class="label" for="City">Hospital/Clinic City</label>
+            <select class="inputString" name="City" disabled>
+                <!-- INSERT CITIES -->
             </select>
         </div>
-        
+        <!-- HOSPITALNAME -->
+        <div class="hospitalname">
+            <label class="label" for="Province">Hospital/Clinic Name</label>
+            <input class="inputString" type="text">
+        </div>
         <h1 class="subtitle p">Updated Patient Information</h1>
         <!-- PATIENT AGE -->
         <div class="patientage">
             <label class="label" for="patientage">Patient Age</label>
-            <input class="inputString" type="number" min="0" max="100">
+            <input class="inputString" type="number" min="0" max="100" name = "patientage">
         </div>
         <!-- PATIENT GENDER -->
         <div class="patientgender">
@@ -116,7 +133,95 @@
             </div>
         </div>
         <!-- SUBMIT BUTTON -->
-        <button type="submit" name="button">Create Appointment</button>
+        <button type="submit" name="button">Update Appointment</button>
     </form>
 </body>
+<script>
+    const location_options = {
+        "National Capital Region (NCR)":{
+            "Manila":["Las Piñas", "Makati", "Malabon", "Mandaluyong", "Manila",  "Muntinlupa", "Parañaque", "Pasig", "Quezon City", "San Juan", "Taguig", "Valenzuela"]
+        },
+        "Ilocos Region (I)":{
+            "La Union":["San Fernando City"],
+            "Pangasinan":["Dagupan City", "Pozzorubio"]
+        }, 
+        "Central Luzon (III)":{
+            "Bulacan":["Malolos City"],
+            "Zambales":["Olongapo City"]
+        },
+        "CALABARZON (IV-A)":{
+            "Cavite":["Bacoor City","Dasmariñas City"],
+            "Laguna":["Calamba City", "Pangil", "Santa Cruz", "Santa Rosa City", "Siniloan"]
+        }, 
+        "Bicol Region (V)":{
+            "Albay":["Legazpi City", "Manito"],
+        }, 
+        "Western Visayas (VI)":{
+            "Iloilo":["Iloilo City"],
+            "Negros Oriental":["Dumaguete City"]
+        },
+        "Central Visayas (VII)":{
+            "Cebu":["Cebu City","Liloan"]
+        }, 
+        "Eastern Visayas (VIII)":{
+            "Leyte":["Kananga"]
+        },
+        "Northern Mindanao (X)":{
+            "Lanao del Norte":["Iligan City"],
+            "Bukidnon":["Valencia"]
+        }, 
+        "SOCCSKSARGEN (Cotabato Region) (XII)":{
+            "Cotabato":["Makilala"],
+            "South Cotabato":["General Santos City"]
+        }
+    };
+    const regions = Object.keys(location_options);
+    const regionInput = document.querySelector(".RegionName .inputString");
+    const provinceInput = document.querySelector(".Province .inputString");
+    const cityInput = document.querySelector(".City .inputString");
+    const specialtyInput = document.querySelector(".mainspecialty .inputString");
+    for (let index = 0; index < regions.length; index++) {
+        let element = document.createElement("option");
+        element.innerHTML = "<options value=" + regions[index] + ">" + regions[index] + "</options>";
+        console.log(element);
+        regionInput.append(element);
+    }
+    regionInput.selectedIndex = -1;
+    regionInput.addEventListener("change", function(){
+        let selectedRegion = regionInput.value;
+        let provinces = Object.keys(location_options[selectedRegion]);
+        provinceInput.innerHTML = "";
+        for (let index = 0; index < provinces.length; index++) {
+            let element = document.createElement("option");
+            element.innerHTML = "<options value=" + provinces[index] + ">" + provinces[index] + "</options>";
+            provinceInput.append(element);
+        }
+        provinceInput.disabled = false;
+        provinceInput.selectedIndex = -1;
+        cityInput.disabled = true;
+        cityInput.innerHTML = "";
+        cityInput.value = "";
+    });
+    provinceInput.addEventListener("change", function(){
+        cityInput.disabled = false;
+        let selectedRegion = regionInput.value;
+        let selectedProvince = provinceInput.value;
+        let cities = location_options[selectedRegion][selectedProvince];
+        cityInput.innerHTML = "";
+        for (let index = 0; index < cities.length; index++) {
+            let element = document.createElement("option");
+            element.innerHTML = "<options value=" + cities[index] + ">" + cities[index] + "</options>";
+            cityInput.append(element);
+        }
+        cityInput.disabled = false;
+        cityInput.selectedIndex = -1;
+    });
+    const specialtyOptions = ["aesthetic, plastic, and reconstructive surgery", "dermatology","family and community medicine", "general medicine","general surgery", "hematology", "infectious diseases","internal medicine","lifestyle, functional, and integrative medicine","naturopathic medicine", "neurology", "obstetrics and gynecology","ophthalmology", "orthopedic surgery", "pediatrics", "pulmonology","veterinary medicine"];
+    for (let index = 0; index < specialtyOptions.length; index++) {
+        let element = document.createElement("option");
+        element.innerHTML = "<options value=" + specialtyOptions[index] + ">" + specialtyOptions[index] + "</options>";
+        specialtyInput.append(element);
+    }
+    specialtyInput.selectedIndex = -1;
+</script>
 </html>
