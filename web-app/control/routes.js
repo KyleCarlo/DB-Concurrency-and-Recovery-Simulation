@@ -88,6 +88,36 @@ router.get("/update", (req, res) => {
     });
 })
 
+router.post("/update", async (req, res) => {
+    const db_selected = req.app.get('access');
+    const apptid = req.body.apptid;
+    
+    delete req.body.button;
+    console.log(req.body);
+
+    // handle blank age
+    if (req.body.patientage == ''){
+        req.body.patientage = 0;
+    }
+
+    try {
+        let query = queries[db_selected];
+        const existingAppointments = await query("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
+        
+        if (existingAppointments.length === 0) {
+            res.render('update', {error: {status: 'error', message: "Appointment NOT FOUND!"}});
+        } else {
+            let query = queries[db_selected];
+            await query("UPDATE appointments SET ? WHERE apptid = ?;", [req.body, apptid], 'WRITE');
+            console.log("Appointment edited!");
+            res.render('update', {error: {status: 'ack', message: "Appointment updated!"}});
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return res.render('update', {error: {status: 'error', message: "Server error has occured!"}});
+    }
+});
+
 // READ
 router.get("/read", (req, res) => {
     res.render('read', {results: null, apptid: null, error: null});

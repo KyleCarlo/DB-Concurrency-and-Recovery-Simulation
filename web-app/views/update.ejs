@@ -36,7 +36,7 @@
         </a>
     </div>
     <h1 class="title">Edit Appointment</h1>
-    <form action="">
+    <form action="/update" method = "post" name = "appointmentEditForm">
         <!-- APPT ID -->
         <div class="apptid">
             <label for="apptid"><h1 class="subtitle">Appointment ID to Update: </h1></label>
@@ -111,8 +111,8 @@
         </div>
         <!-- HOSPITALNAME -->
         <div class="hospitalname">
-            <label class="label" for="Province">Hospital/Clinic Name</label>
-            <input class="inputString" type="text">
+            <label class="label" for="hospitalname">Hospital/Clinic Name</label>
+            <input class="inputString" name="hospitalname" type="text">
         </div>
         <h1 class="subtitle p">Updated Patient Information</h1>
         <!-- PATIENT AGE -->
