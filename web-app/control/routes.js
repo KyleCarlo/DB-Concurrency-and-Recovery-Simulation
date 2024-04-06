@@ -66,6 +66,10 @@ router.post('/create', async (req, res) => {
     if (req.body.patientage == ''){
         req.body.patientage = null;
     }
+    if (req.body.hospitalname == '') {
+        req.body.hospitalname = null;
+    }
+
 
     try {
         let query = queries[db_selected];
@@ -95,7 +99,7 @@ router.post("/update", async (req, res) => {
     delete req.body.button;
     console.log(req.body);
 
-    // handle blank age and datetime
+    // handle blank inputs
     if (req.body.patientage == ''){
         req.body.patientage = null;
     }
@@ -104,6 +108,9 @@ router.post("/update", async (req, res) => {
     }
     if (req.body.EndTime == ''){
         req.body.EndTime = null;
+    }
+    if (req.body.hospitalname == '') {
+        req.body.hospitalname = null;
     }
 
     try {

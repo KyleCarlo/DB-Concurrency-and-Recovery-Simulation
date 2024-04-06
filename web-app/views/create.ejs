@@ -92,7 +92,7 @@
         <!-- PROVINCE -->
         <div class="Province">
             <label class="label" for="Province">Hospital/Clinic Province</label>
-            <select class="inputString" name="Province" disabled>
+            <select class="inputString" name="Province">
                 <!-- INSERT PROVINCES -->
             </select>
         </div>
@@ -181,7 +181,7 @@
         console.log(element);
         regionInput.append(element);
     }
-    regionInput.selectedIndex = -1;
+    // regionInput.selectedIndex = -1;
     regionInput.addEventListener("change", function(){
         let selectedRegion = regionInput.value;
         let provinces = Object.keys(location_options[selectedRegion]);
@@ -217,6 +217,20 @@
         element.innerHTML = "<options value=" + specialtyOptions[index] + ">" + specialtyOptions[index] + "</options>";
         specialtyInput.append(element);
     }
+    const default_provinces = Object.keys(location_options["National Capital Region (NCR)"]);
+    for (let index = 0; index < default_provinces.length; index++) {
+        let element = document.createElement("option");
+        element.innerHTML = "<options value=" + default_provinces[index] + ">" + default_provinces[index] + "</options>";
+        provinceInput.append(element);
+    }
+    const default_cities = location_options["National Capital Region (NCR)"]["Manila"];
+    for (let index = 0; index < default_cities.length; index++) {
+        let element = document.createElement("option");
+        element.innerHTML = "<options value=" + default_cities[index] + ">" + default_cities[index] + "</options>";
+        cityInput.append(element);
+    }
+    provinceInput.selectedIndex = -1;
+    cityInput.selectedIndex = -1;
     specialtyInput.selectedIndex = -1;
     statusInput.selectedIndex = -1;
 </script>
