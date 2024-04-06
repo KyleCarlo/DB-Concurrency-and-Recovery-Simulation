@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {db1, db2, db3, query1, query2, query3} from "./lib/dbs.js";
+import {query1, query2, query3} from "./lib/dbs.js";
 
 const router = Router();
 const queries = [query1, query2, query3];
