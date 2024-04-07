@@ -38,8 +38,10 @@ router.post("/config", (req, res) => {
 
 // CREATE
 router.get("/create", (req, res) => {
+    const db_selected = req.app.get('access');
     res.render('create', {
-        error: null
+        error: null,
+        db_selected: db_selected
     });
 });
 router.post('/create', async (req, res) => {
@@ -106,8 +108,10 @@ router.post('/create', async (req, res) => {
 
 // UPDATE
 router.get("/update", (req, res) => {
+    const db_selected = req.app.get('access');
     res.render('update', {
-        error: null
+        error: null,
+        db_selected: db_selected
     });
 })
 

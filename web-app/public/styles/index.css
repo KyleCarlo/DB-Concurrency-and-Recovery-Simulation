@@ -54,12 +54,12 @@ body {
     color: var(--orange);
 }
 
-.read svg:hover, .update svg:hover, .delete svg:hover, .create svg:hover{
+.read svg:hover, .update svg:hover, .delete svg:hover, .reports svg:hover{
     transition: 0.3s all;
     stroke: var(--blue);
 }
 
-.config svg:hover{
-    transition: 0.3s all;
+.create svg:hover, .config svg:hover {
     fill: var(--blue);
 }
+

@@ -129,9 +129,11 @@
         <!-- SUBMIT BUTTON -->
         <button type="submit" name="button">Create Appointment</button>
     </form>
+
 </body>
 <script>
-    const location_options = {
+    const current_node = "<%=db_selected%>";
+    let location_options = {
         "National Capital Region (NCR)":{
             "Manila":["Las Piñas", "Makati", "Malabon", "Mandaluyong", "Manila",  "Muntinlupa", "Parañaque", "Pasig", "Quezon City", "San Juan", "Taguig", "Valenzuela"]
         },
@@ -169,12 +171,19 @@
             "South Cotabato":["General Santos City"]
         }
     };
+    if(current_node == 1){
+        location_options = Object.fromEntries(Object.entries(location_options).slice(0, 5));
+    }
+    else if (current_node == 2){
+        location_options = Object.fromEntries(Object.entries(location_options).slice(5, 10));
+    }
+    
     const regions = Object.keys(location_options);
     const regionInput = document.querySelector(".RegionName .inputString");
     const provinceInput = document.querySelector(".Province .inputString");
     const cityInput = document.querySelector(".City .inputString");
     const specialtyInput = document.querySelector(".mainspecialty .inputString");
-    const statusInput = document.querySelector(".status .inputString");
+    
     for (let index = 0; index < regions.length; index++) {
         let element = document.createElement("option");
         element.innerHTML = "<options value=" + regions[index] + ">" + regions[index] + "</options>";
@@ -217,13 +226,27 @@
         element.innerHTML = "<options value=" + specialtyOptions[index] + ">" + specialtyOptions[index] + "</options>";
         specialtyInput.append(element);
     }
-    const default_provinces = Object.keys(location_options["National Capital Region (NCR)"]);
+    
+    let default_provinces;
+    let default_cities;
+    if(current_node == 2){
+        default_provinces = Object.keys(location_options["Western Visayas (VI)"]);
+    }
+    else {
+        default_provinces = Object.keys(location_options["National Capital Region (NCR)"]);
+    }
     for (let index = 0; index < default_provinces.length; index++) {
         let element = document.createElement("option");
         element.innerHTML = "<options value=" + default_provinces[index] + ">" + default_provinces[index] + "</options>";
         provinceInput.append(element);
     }
-    const default_cities = location_options["National Capital Region (NCR)"]["Manila"];
+
+    if(current_node == 2){
+        default_cities = location_options["Western Visayas (VI)"]["Iloilo"];
+    }
+    else {
+        default_cities = location_options["National Capital Region (NCR)"]["Manila"];
+    }
     for (let index = 0; index < default_cities.length; index++) {
         let element = document.createElement("option");
         element.innerHTML = "<options value=" + default_cities[index] + ">" + default_cities[index] + "</options>";
@@ -232,6 +255,6 @@
     provinceInput.selectedIndex = -1;
     cityInput.selectedIndex = -1;
     specialtyInput.selectedIndex = -1;
-    statusInput.selectedIndex = -1;
+    
 </script>
 </html>
