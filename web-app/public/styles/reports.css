@@ -1,0 +1,44 @@
+:root{
+    --primary-color: #192a32;
+    --secondary-color: #A8BEC9;
+    --blue: #31C4BE;
+    --orange: #f2b236;
+    --btn-shadow: #718794;
+    --def-font: 'Montserrat', sans-serif;
+}
+
+body {
+    padding: 10px;
+    background-color: var(--primary-color);
+    font-family: var(--def-font);
+    color: var(--secondary-color);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.title{
+    margin-top: 18px;
+    text-align: center;
+    color: var(--orange);
+}
+
+table {
+    margin-top: 18px;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    padding: 10px;
+}
+
+th{
+    padding: 10px 10px;
+    border: 1px solid var(--secondary-color);
+}
+
+td {
+    padding: 10px 10px;
+    border: 1px solid var(--secondary-color);
+}

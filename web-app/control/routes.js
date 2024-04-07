@@ -17,6 +17,7 @@ router.get("/", (req, res) => {
     res.render('index');
 });
 
+// CONFIG
 router.get("/config", (req, res) => {
     const db_selected = req.app.get('access');
     res.render('config', {
@@ -192,6 +193,29 @@ router.post('/delete', async (req, res) => {
         appointmentExists = false; 
         return res.render('delete', {error: {status: 'error', message: "Server error has occured!"}});
     }
+});
+
+// REPORTS
+router.get("/reports", async (req, res) => {
+    const db_selected = req.app.get('access');
+    let appointmentReports = [];
+    try {
+        let query = queries[db_selected];
+        appointmentReports = await query("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
+        
+        if (appointmentReports.length === 0) {
+            res.render('reports', {error: {status: 'error', message: "No Appointments in the DB!"}});
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        return res.render('reports', {error: {status: 'error', message: "Server error has occured!"}});
+    }
+
+    res.render('reports', {
+        error: null,
+        db_selected: db_selected,
+        appointmentReports: appointmentReports
+    });
 });
 
 export default router;
