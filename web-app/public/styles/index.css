@@ -27,7 +27,7 @@ body {
 
 .container{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     justify-content: space-around;
     align-content: space-around;
@@ -54,12 +54,12 @@ body {
     color: var(--orange);
 }
 
-.create svg:hover{
-    transition: 0.3s all;
-    fill: var(--blue);
-}
-
-.read svg:hover, .update svg:hover, .delete svg:hover{
+.read svg:hover, .update svg:hover, .delete svg:hover, .create svg:hover{
     transition: 0.3s all;
     stroke: var(--blue);
+}
+
+.config svg:hover{
+    transition: 0.3s all;
+    fill: var(--blue);
 }

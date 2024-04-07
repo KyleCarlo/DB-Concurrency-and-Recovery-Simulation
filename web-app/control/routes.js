@@ -17,6 +17,24 @@ router.get("/", (req, res) => {
     res.render('index');
 });
 
+router.get("/config", (req, res) => {
+    const db_selected = req.app.get('access');
+    res.render('config', {
+        error: null,
+        db_selected: db_selected
+    });
+});
+
+router.post("/config", (req, res) => {
+    const db_selected = req.body.db_selected;
+    console.log("Node", parseInt(db_selected) + 1, "selected.");
+    req.app.set('access', db_selected);
+    res.render('config', {
+        error: {status: 'ack', message: "Database selected!"},
+        db_selected: db_selected
+    });
+});
+
 // CREATE
 router.get("/create", (req, res) => {
     res.render('create', {
