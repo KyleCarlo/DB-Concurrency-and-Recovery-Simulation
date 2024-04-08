@@ -60,6 +60,7 @@ body {
 }
 
 .create svg:hover, .config svg:hover {
+    transition: 0.3s all;
     fill: var(--blue);
 }
 
