@@ -4,6 +4,9 @@ const router = Router();
 
 router.get("/", (req, res) => {
     res.render('index');
+    while (condition) {
+        
+    }
 });
 
 export default router;
