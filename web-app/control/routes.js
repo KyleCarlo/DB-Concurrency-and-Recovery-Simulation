@@ -301,7 +301,7 @@ router.get("/reports", async (req, res) => {
     let db_selected = req.app.get('access');
     let appointmentReports = [];
     try {
-        db_selected = getNode(db_selected, config, req);
+        db_selected = getNode(db_selected, config, req);    
         let query = queries[db_selected];
         appointmentReports = await query("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
         
