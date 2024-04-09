@@ -16,6 +16,7 @@ function formatNodename(node_index){
 }
 
 function formatLog(log) {
+    console.log(log.timestamp.toDateString() + " " + log.timestamp.toLocaleTimeString());
     log.timestamp = log.timestamp.toDateString() + " " + log.timestamp.toLocaleTimeString();
     log.source = formatNodename(log.source);
     log.target = formatNodename(log.target);
@@ -79,12 +80,17 @@ router.get('/logNrecover', (req, res) => {
 router.post('/logNrecover', async (req, res) => {
     let recoveryLogs = req.app.get('recoveryLogs');
     const config = req.app.get('config');
-    let newLog = await recovery(config);
-    if (newLog != null) {
-        formatLog(newLog);
-        recoveryLogs.push(newLog);
-        if (recoveryLogs.length > logLimits) {
-            recoveryLogs.shift();
+    let list_newLog = await recovery(config);
+    if (list_newLog != null) {
+        let timestamp = list_newLog.timestamp;
+        let logs = list_newLog.logs;
+        for (let i = 0; i < logs.length; i++) {
+            logs[i].timestamp = timestamp;
+            logs[i] = formatLog(logs[i]);
+            recoveryLogs.push(logs[i]);
+            if (logs.length > logLimits) {
+                logs.shift();
+            }
         }
     }
     res.render('index', {recoveryLogs: recoveryLogs});
