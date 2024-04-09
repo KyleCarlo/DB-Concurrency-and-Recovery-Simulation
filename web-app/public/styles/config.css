@@ -19,6 +19,13 @@ body {
     color: var(--secondary-color);
 }
 
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 85vh;
+}
+
 .title{
     margin-top: 18px;
     text-align: center;
@@ -28,7 +35,7 @@ body {
 .node-selection{
     display: flex;
     justify-content: space-around;
-    height: 80vh;
+    /* height: 80vh; */
     align-items: center;
 }
 
@@ -60,6 +67,85 @@ form {
 
 p{
     font-weight: 500;
+}
+
+.node-on {
+    display: flex;
+    justify-content: space-around;
+}
+
+.node-button {
+    min-height: 80px;
+    width: 130px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.btn-circle {
+    min-width: 75px;
+    max-width: 75px;
+    min-height: 75px;
+    border-radius: 75px;
+    background-color: white;
+    position: relative;
+    top: -77.5px;
+    /* left: -25px; */
+}
+
+.btn {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    min-width: 130px;
+    border-radius: 50px;
+    margin: 25px 25px;
+    max-height: 80px;
+}
+
+.btn * {
+    cursor: pointer;
+}
+
+.o{
+    position: relative;
+    left: 7px;
+}
+
+.off-state .btn-circle{
+    left: -25px;
+}
+
+.on-state{
+    background-color: rgb(45, 141, 45);
+}
+
+.on-state:hover .btn-circle{
+    transition: 0.3s all;
+    left: -25px;
+}
+
+.on-state:hover {
+    background-color: var(--btn-shadow);
+}
+
+.off-state{
+    background-color: var(--btn-shadow);
+}
+
+.off-state:hover .btn-circle{
+    transition: 0.3s all;
+    left: 25px;
+}
+
+.off-state:hover {
+    background-color: rgb(45, 141, 45);
+}
+
+.on-state .btn-circle{
+    left: 25px;
 }
 
 .return{

@@ -37,64 +37,114 @@
     </div>
     <!-- HIDDEN FORM -->
     <form action="/config" method="post">
-        <input type="text" name="db_selected" value="<%=db_selected%>">
-        <button type="submit" name="button">Select Node</button>
+        <input type="text" name="db_selected" id="db_selected" value="<%=db_selected%>">
+        <input type="text" name="config0" id="config0" value="<%=config[0]%>">
+        <input type="text" name="config1" id="config1" value="<%=config[1]%>">
+        <input type="text" name="config2" id="config2" value="<%=config[2]%>">
+        <button type="submit" name="button" id="formSubmit">Select Node</button>
     </form>
 
-    <h1 class="title">Node Selection</h1>
-    <div class="node-selection">
-        <section id="node-1">
-            <h1>Node 1</h1>
-            <svg class="db-icon" width="200px" height="200px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 10C16.4183 10 20 8.20914 20 6C20 3.79086 16.4183 2 12 2C7.58172 2 4 3.79086 4 6C4 8.20914 7.58172 10 12 10Z" fill="<%if (db_selected == 0) {%> #f2b236 <%} else {%> #ffff <%}%>"/>
-                <path opacity="0.5" d="M4 12V18C4 20.2091 7.58172 22 12 22C16.4183 22 20 20.2091 20 18V12C20 14.2091 16.4183 16 12 16C7.58172 16 4 14.2091 4 12Z" fill="<%if (db_selected == 0) {%> #f2b236 <%} else {%> #718794 <%}%>"/>
-                <path opacity="0.7" d="M4 6V12C4 14.2091 7.58172 16 12 16C16.4183 16 20 14.2091 20 12V6C20 8.20914 16.4183 10 12 10C7.58172 10 4 8.20914 4 6Z" fill="<%if (db_selected == 0) {%> #f2b236 <%} else {%> #A8BEC9 <%}%>"/>
-            </svg>
-            <p>Center Node</p>
-            <% if (db_selected == 0) { %>
-                <p><em>SELECTED</em></p>
-            <%}%>
-        </section>
+    <div class="main">
+        <h1 class="title">Node Selection</h1>
 
-        <section id="node-2">
-            <h1>Node 2</h1>
-            <svg class="db-icon" width="200px" height="200px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 10C16.4183 10 20 8.20914 20 6C20 3.79086 16.4183 2 12 2C7.58172 2 4 3.79086 4 6C4 8.20914 7.58172 10 12 10Z" fill="<%if (db_selected == 1) {%> #f2b236 <%} else {%> #ffff <%}%>"/>
-                <path opacity="0.5" d="M4 12V18C4 20.2091 7.58172 22 12 22C16.4183 22 20 20.2091 20 18V12C20 14.2091 16.4183 16 12 16C7.58172 16 4 14.2091 4 12Z" fill="<%if (db_selected == 1) {%> #f2b236 <%} else {%> #718794 <%}%>"/>
-                <path opacity="0.7" d="M4 6V12C4 14.2091 7.58172 16 12 16C16.4183 16 20 14.2091 20 12V6C20 8.20914 16.4183 10 12 10C7.58172 10 4 8.20914 4 6Z" fill="<%if (db_selected == 1) {%> #f2b236 <%} else {%> #A8BEC9 <%}%>"/>
-            </svg>
-            <p>Luzon Node</p>
-            <% if (db_selected == 1) { %>
-                <p class="selected">SELECTED</p>
-            <%}%>
-        </section>
+        <div class="node-selection">
+            <section id="node-1">
+                <h1>Node 1</h1>
+                <svg class="db-icon" width="200px" height="200px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 10C16.4183 10 20 8.20914 20 6C20 3.79086 16.4183 2 12 2C7.58172 2 4 3.79086 4 6C4 8.20914 7.58172 10 12 10Z" fill="<%if (db_selected == 0) {%> #f2b236 <%} else {%> #ffff <%}%>"/>
+                    <path opacity="0.5" d="M4 12V18C4 20.2091 7.58172 22 12 22C16.4183 22 20 20.2091 20 18V12C20 14.2091 16.4183 16 12 16C7.58172 16 4 14.2091 4 12Z" fill="<%if (db_selected == 0) {%> #f2b236 <%} else {%> #718794 <%}%>"/>
+                    <path opacity="0.7" d="M4 6V12C4 14.2091 7.58172 16 12 16C16.4183 16 20 14.2091 20 12V6C20 8.20914 16.4183 10 12 10C7.58172 10 4 8.20914 4 6Z" fill="<%if (db_selected == 0) {%> #f2b236 <%} else {%> #A8BEC9 <%}%>"/>
+                </svg>
+                <p>Center Node</p>
+                <% if (db_selected == 0) { %>
+                    <p><em>SELECTED</em></p>
+                <%}%>
+            </section>
 
-        <section id="node-3">
-            <h1>Node 3</h1>
-            <svg class="db-icon" width="200px" height="200px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 10C16.4183 10 20 8.20914 20 6C20 3.79086 16.4183 2 12 2C7.58172 2 4 3.79086 4 6C4 8.20914 7.58172 10 12 10Z" fill="<%if (db_selected == 2) {%> #f2b236 <%} else {%> #ffff <%}%>"/>
-                <path opacity="0.5" d="M4 12V18C4 20.2091 7.58172 22 12 22C16.4183 22 20 20.2091 20 18V12C20 14.2091 16.4183 16 12 16C7.58172 16 4 14.2091 4 12Z" fill="<%if (db_selected == 2) {%> #f2b236 <%} else {%> #718794 <%}%>"/>
-                <path opacity="0.7" d="M4 6V12C4 14.2091 7.58172 16 12 16C16.4183 16 20 14.2091 20 12V6C20 8.20914 16.4183 10 12 10C7.58172 10 4 8.20914 4 6Z" fill="<%if (db_selected == 2) {%> #f2b236 <%} else {%> #A8BEC9 <%}%>"/>
-            </svg>
-            <p>Visayas & Mindanao Node</p>
-            <% if (db_selected == 2) { %>
-                <p class="selected">SELECTED</p>
-            <%}%>
-        </section>
+            <section id="node-2">
+                <h1>Node 2</h1>
+                <svg class="db-icon" width="200px" height="200px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 10C16.4183 10 20 8.20914 20 6C20 3.79086 16.4183 2 12 2C7.58172 2 4 3.79086 4 6C4 8.20914 7.58172 10 12 10Z" fill="<%if (db_selected == 1) {%> #f2b236 <%} else {%> #ffff <%}%>"/>
+                    <path opacity="0.5" d="M4 12V18C4 20.2091 7.58172 22 12 22C16.4183 22 20 20.2091 20 18V12C20 14.2091 16.4183 16 12 16C7.58172 16 4 14.2091 4 12Z" fill="<%if (db_selected == 1) {%> #f2b236 <%} else {%> #718794 <%}%>"/>
+                    <path opacity="0.7" d="M4 6V12C4 14.2091 7.58172 16 12 16C16.4183 16 20 14.2091 20 12V6C20 8.20914 16.4183 10 12 10C7.58172 10 4 8.20914 4 6Z" fill="<%if (db_selected == 1) {%> #f2b236 <%} else {%> #A8BEC9 <%}%>"/>
+                </svg>
+                <p>Luzon Node</p>
+                <% if (db_selected == 1) { %>
+                    <p class="selected">SELECTED</p>
+                <%}%>
+            </section>
+
+            <section id="node-3">
+                <h1>Node 3</h1>
+                <svg class="db-icon" width="200px" height="200px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 10C16.4183 10 20 8.20914 20 6C20 3.79086 16.4183 2 12 2C7.58172 2 4 3.79086 4 6C4 8.20914 7.58172 10 12 10Z" fill="<%if (db_selected == 2) {%> #f2b236 <%} else {%> #ffff <%}%>"/>
+                    <path opacity="0.5" d="M4 12V18C4 20.2091 7.58172 22 12 22C16.4183 22 20 20.2091 20 18V12C20 14.2091 16.4183 16 12 16C7.58172 16 4 14.2091 4 12Z" fill="<%if (db_selected == 2) {%> #f2b236 <%} else {%> #718794 <%}%>"/>
+                    <path opacity="0.7" d="M4 6V12C4 14.2091 7.58172 16 12 16C16.4183 16 20 14.2091 20 12V6C20 8.20914 16.4183 10 12 10C7.58172 10 4 8.20914 4 6Z" fill="<%if (db_selected == 2) {%> #f2b236 <%} else {%> #A8BEC9 <%}%>"/>
+                </svg>
+                <p>Visayas & Mindanao Node</p>
+                <% if (db_selected == 2) { %>
+                    <p class="selected">SELECTED</p>
+                <%}%>
+            </section>
+        </div>
+
+        <div class="node-on">
+            <div class="btn <% if (config[0] == true) {%> on-state <%} else {%> off-state <%}%>" id="btn-1">
+                <div class="node-button">
+                    <h1>l</h1>
+                    <h1 class="o">O</h1>
+                </div>
+                <div class="btn-circle"></div>
+            </div>
+            
+            <div class="btn <% if (config[1] == true) {%> on-state <%} else {%> off-state <%}%>" id="btn-2">
+                <div class="node-button">
+                    <h1>l</h1>
+                    <h1 class="o">O</h1>
+                </div>
+                <div class="btn-circle"></div>
+            </div>
+
+            <div class="btn <% if (config[2] == true) {%> on-state <%} else {%> off-state <%}%>" id="btn-3">
+                <div class="node-button">
+                    <h1>l</h1>
+                    <h1 class="o">O</h1>
+                </div>
+                <div class="btn-circle"></div>
+            </div>
+        </div>
     </div>
 </body>
 <script>
     const current_node = "<%=db_selected%>";
-    const submit = document.querySelector('button');
-    const input = document.querySelector('input');
+    const submit = document.getElementById("formSubmit");
+    const dbSelection = document.getElementById("db_selected");
+    const config = [
+        document.getElementById("config0"), 
+        document.getElementById("config1"), 
+        document.getElementById("config2")
+    ];
     const selection = document.querySelectorAll('.db-icon');
-
+    const nodeButtons = document.querySelectorAll('.btn');
     selection.forEach(db => {
         db.addEventListener('click', (e) => {
             selectedNode = db.parentElement.id.slice(-1) - 1;
-            input.value = selectedNode;
+            dbSelection.value = selectedNode;
             if (current_node != selectedNode)
                 submit.click();
+        });
+    });
+
+    nodeButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const index = btn.id.slice(-1) - 1;
+            const selected = config[index];
+            if (selected.value == "true"){
+                selected.value = "false";
+            } else {
+                selected.value = "true";
+            }
+            submit.click();
         });
     });
 </script>

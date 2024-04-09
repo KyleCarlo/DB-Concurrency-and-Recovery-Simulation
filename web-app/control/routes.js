@@ -1,5 +1,7 @@
 import { Router } from "express";
 import {query1, query2, query3} from "./lib/dbs.js";
+import locations from "./lib/locations.js";
+import { config } from "dotenv";
 
 const router = Router();
 const queries = [query1, query2, query3];
@@ -19,22 +21,65 @@ router.get("/", (req, res) => {
 
 // CONFIG
 router.get("/config", (req, res) => {
+    const config = req.app.get('config');
     const db_selected = req.app.get('access');
     res.render('config', {
         error: null,
-        db_selected: db_selected
+        db_selected: db_selected,
+        config: config
     });
 });
 
 router.post("/config", (req, res) => {
     const db_selected = req.body.db_selected;
-    console.log("Node", parseInt(db_selected) + 1, "selected.");
+    const prev_db_selected = req.app.get('access');
+    const new_config = [
+        req.body.config0 == 'true' ? true : false,
+        req.body.config1 == 'true' ? true : false,
+        req.body.config2 == 'true' ? true : false
+    ];
+    const prev_config = req.app.get('config');
+    var changed;
+    for (let i = 0; i < new_config.length; i++) {
+        if (new_config[i] != prev_config[i]) {
+           changed = i;
+        }
+    }
+
+    req.app.set('config', new_config);
     req.app.set('access', db_selected);
-    res.render('config', {
-        error: {status: 'ack', message: "Database selected!"},
-        db_selected: db_selected
-    });
+
+    console.log("New config:", new_config);
+    console.log("Node", parseInt(db_selected) + 1, "selected.");
+
+    if (db_selected == prev_db_selected){
+        res.render('config', {
+            error: {status: 'ack', message: "Node " + (parseInt(changed) + 1) + (new_config[changed] == true ? " ON":" OFF") + "!"},
+            db_selected: db_selected,
+            config: new_config
+        });
+    } else  {
+        res.render('config', {
+            error: {status: 'ack', message: "Node " + (parseInt(db_selected) + 1) + " selected!"},
+            db_selected: db_selected,
+            config: new_config
+        });
+    }
 });
+
+function getNode(req) {
+    if (locations.luzon[req.body.RegionName]) {
+        return 1;
+    }
+    return 2;
+}
+
+function handleNode(db_selected, config, req) {
+    if (config[db_selected] == false) {
+        return getNode(req);
+    }
+    return 0;
+}
 
 // CREATE
 router.get("/create", (req, res) => {
@@ -44,8 +89,17 @@ router.get("/create", (req, res) => {
         db_selected: db_selected
     });
 });
+
 router.post('/create', async (req, res) => {
-    const db_selected = req.app.get('access');
+    const config = req.app.get('config');
+//  const config = [false, true , true];
+    const db_selected = req.app.get('access');  // 0 - central; 1 - luzon; 2 - vismin
+//  const db_selected = handleNode(req.app.get('access'), config, req);
+    console.log (db_selected);
+    console.log(getNode(req));
+    console.log("----");
+
+
     let apptid = req.body.apptid;
     apptid = generateRandomString(32);
     let appointmentExists = true;
@@ -63,7 +117,10 @@ router.post('/create', async (req, res) => {
         } catch (error) {
             console.error('Error:', error);
             appointmentExists = false; 
-            return res.render('create', {error: {status: 'error', message: "Server error has occured!"}});
+            return res.render('create', {
+                error: {status: 'error', message: "Server error has occured!"},
+                db_selected: db_selected
+            });
         }
     }
 
@@ -91,17 +148,20 @@ router.post('/create', async (req, res) => {
         req.body.hospitalname = null;
     }
 
-
     try {
         let query = queries[db_selected];
         await query("INSERT INTO appointments SET ?;", req.body, 'WRITE');
         console.log("Appointment created!");
-        res.render('create', {error: {status: 'ack', message: "Appointment created!"}});
+        res.render('create', {
+            error: {status: 'ack', message: "Appointment created!"},
+            db_selected: db_selected
+        });
     } catch (e) {
         console.log(e.message);
         console.error('Transaction failed. Rolling back...', e);
         return res.render('create', {
-            error: {status: 'error', message: "Server error has occured!"}
+            error: {status: 'error', message: "Server error has occured!"},
+            db_selected: db_selected
         });
     }
 });

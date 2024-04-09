@@ -158,52 +158,19 @@
         <button type="submit" name="button">Update Appointment</button>
     </form>
 </body>
-<script>
+<script type = module>
     const current_node = "<%=db_selected%>";
-    let location_options = {
-        "National Capital Region (NCR)":{
-            "Manila":["Las Piñas", "Makati", "Malabon", "Mandaluyong", "Manila",  "Muntinlupa", "Parañaque", "Pasig", "Quezon City", "San Juan", "Taguig", "Valenzuela"]
-        },
-        "Ilocos Region (I)":{
-            "La Union":["San Fernando City"],
-            "Pangasinan":["Dagupan City", "Pozzorubio"]
-        }, 
-        "Central Luzon (III)":{
-            "Bulacan":["Malolos City"],
-            "Zambales":["Olongapo City"]
-        },
-        "CALABARZON (IV-A)":{
-            "Cavite":["Bacoor City","Dasmariñas City"],
-            "Laguna":["Calamba City", "Pangil", "Santa Cruz", "Santa Rosa City", "Siniloan"]
-        }, 
-        "Bicol Region (V)":{
-            "Albay":["Legazpi City", "Manito"],
-        }, 
-        "Western Visayas (VI)":{
-            "Iloilo":["Iloilo City"],
-            "Negros Oriental":["Dumaguete City"]
-        },
-        "Central Visayas (VII)":{
-            "Cebu":["Cebu City","Liloan"]
-        }, 
-        "Eastern Visayas (VIII)":{
-            "Leyte":["Kananga"]
-        },
-        "Northern Mindanao (X)":{
-            "Lanao del Norte":["Iligan City"],
-            "Bukidnon":["Valencia"]
-        }, 
-        "SOCCSKSARGEN (Cotabato Region) (XII)":{
-            "Cotabato":["Makilala"],
-            "South Cotabato":["General Santos City"]
-        }
-    };
-    if(current_node == 1){
-        location_options = Object.fromEntries(Object.entries(location_options).slice(0, 5));
+    import locations from "../locations.js";
+    
+    let location_options = {};
+    
+    if(current_node == 1 || current_node == 0){
+        Object.assign(location_options, locations['luzon']);
     }
-    else if (current_node == 2){
-        location_options = Object.fromEntries(Object.entries(location_options).slice(5, 10));
+    if (current_node == 2 || current_node == 0){
+        Object.assign(location_options, locations['vismin']);
     }
+    
     const regions = Object.keys(location_options);
     const regionInput = document.querySelector(".RegionName .inputString");
     const provinceInput = document.querySelector(".Province .inputString");
