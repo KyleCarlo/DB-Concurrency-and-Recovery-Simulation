@@ -66,16 +66,12 @@ router.post("/config", (req, res) => {
     }
 });
 
-function getNode(req) {
-    if (locations.luzon[req.body.RegionName]) {
-        return 1;
-    }
-    return 2;
-}
-
-function handleNode(db_selected, config, req) {
+function getNode(db_selected, config, req) {
     if (config[db_selected] == false) {
-        return getNode(req);
+        if (locations.luzon[req.body.RegionName]) {
+            return 1;
+        }
+        return 2;
     }
     return 0;
 }
@@ -91,13 +87,7 @@ router.get("/create", (req, res) => {
 
 router.post('/create', async (req, res) => {
     const config = req.app.get('config');
-//  const config = [false, true , true];
-    const db_selected = req.app.get('access');  // 0 - central; 1 - luzon; 2 - vismin
-//  const db_selected = handleNode(req.app.get('access'), config, req);
-    console.log (db_selected);
-    console.log(getNode(req));
-    console.log("----");
-
+    let db_selected = req.app.get('access');  // 0 - central; 1 - luzon; 2 - vismin
 
     let apptid = req.body.apptid;
     apptid = generateRandomString(32);
@@ -105,6 +95,7 @@ router.post('/create', async (req, res) => {
 
     while (appointmentExists) {
         try {
+            db_selected = getNode(db_selected, config, req);
             let query = queries[db_selected];
             const existingAppointments = await query("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
             
@@ -122,7 +113,7 @@ router.post('/create', async (req, res) => {
             });
         }
     }
-
+    
     req.body.apptid = apptid;
     req.body.status = "Queued";
 
@@ -175,9 +166,9 @@ router.get("/update", (req, res) => {
 })
 
 router.post("/update", async (req, res) => {
+    const config = req.app.get('config');
     const db_selected = req.app.get('access');
     const apptid = req.body.apptid;
-    
     delete req.body.button;
     console.log(req.body);
 
@@ -196,16 +187,30 @@ router.post("/update", async (req, res) => {
     }
 
     try {
-        let query = queries[db_selected];
-        const existingAppointments = await query("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
+        let query;
+        let isApptExist;
+        if (config[0]) {
+            isApptExist = await queries[0]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
+            if (isApptExist.length > 0) query = queries[0];
+            else query = null;
+        } else {
+            isApptExist = [await queries[1]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ'),
+                           await queries[2]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ')];
+            if (isApptExist[0].length > 0){
+                query = queries[1];
+            } else if (isApptExist[1].length > 0) {
+                query = queries[2];
+            } else {
+                query = null;
+            }
+        }   
         
-        if (existingAppointments.length === 0) {
+        if (query == null) {
             res.render('update', {
                 error: {status: 'error', message: "Appointment NOT FOUND!"},
                 db_selected: db_selected
             });
         } else {
-            let query = queries[db_selected];
             await query("UPDATE appointments SET ? WHERE apptid = ?;", [req.body, apptid], 'WRITE');
             console.log("Appointment edited!");
             res.render('update', {
@@ -220,6 +225,7 @@ router.post("/update", async (req, res) => {
             db_selected: db_selected
         });
     }
+
 });
 
 // READ
@@ -229,13 +235,35 @@ router.get("/read", (req, res) => {
 
 router.post('/read', async (req, res) => {
     const apptid = req.body.apptid;
-    const db_selected = req.app.get('access');
+    let db_selected = req.app.get('access');
+    const config = req.app.get('config');
     try {
-        let query = queries[db_selected]
-        let results = await query("SELECT * FROM appointments WHERE apptid=?;", [apptid], 'READ');
-        res.render('read', {results: results[0], apptid: apptid, error: null});
+        let result;
+        if (config[0]) {
+            result = await queries[0]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
+            if (result.length == 0) result = null;
+        } else {
+            result = [await queries[1]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ'),
+                           await queries[2]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ')];
+            if (result[0].length > 0){
+                result = result[0];
+            } else if (result[1].length > 0) {
+                result = result[1];
+            } else {
+                result = null;
+            }
+        }   
+
+        if (result == null) {
+            res.render('read', {
+                results: null,
+                error: {status: 'error', message: "Appointment NOT FOUND!"},
+                apptid: apptid
+            });
+        } else {
+            res.render('read', {results: result[0], apptid: apptid, error: null});
+        }
     } catch (e) {
-        console.log(e.message);
         return res.render('read', {results: null, apptid: null, error: {status: 'error', message: "Server error has occured!"}});
     }
 });
@@ -247,31 +275,45 @@ router.get("/delete", (req, res) => {
 
 router.post('/delete', async (req, res) => {
     const apptid = req.body.apptid;
-    const db_selected = req.app.get('access');
-    
+    const config = req.app.get('config');
     try {
-        let query = queries[db_selected];
-        const existingAppointments = await query("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
+        let query;
+        let isApptExist;
+        if (config[0]) {
+            isApptExist = await queries[0]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
+            if (isApptExist.length > 0) query = queries[0];
+            else query = null;
+        } else {
+            isApptExist = [await queries[1]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ'),
+                           await queries[2]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ')];
+            if (isApptExist[0].length > 0){
+                query = queries[1];
+            } else if (isApptExist[1].length > 0) {
+                query = queries[2];
+            } else {
+                query = null;
+            }
+        }  
         
-        if (existingAppointments.length === 0) {
+        if (query == null) {
             res.render('delete', {error: {status: 'error', message: "Appointment NOT FOUND!"}});
         } else {
-            let query = queries[db_selected];
             await query("DELETE FROM appointments WHERE apptid=?;", [apptid], 'WRITE');
             res.render('delete', {error: {status: 'ack', message: "Appointment deleted!"}});
         }
+
     } catch (error) {
         console.error('Error:', error);
-        appointmentExists = false; 
         return res.render('delete', {error: {status: 'error', message: "Server error has occured!"}});
     }
 });
 
 // REPORTS
 router.get("/reports", async (req, res) => {
-    const db_selected = req.app.get('access');
+    let db_selected = req.app.get('access');
     let appointmentReports = [];
     try {
+        db_selected = getNode(db_selected, config, req);
         let query = queries[db_selected];
         appointmentReports = await query("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
         

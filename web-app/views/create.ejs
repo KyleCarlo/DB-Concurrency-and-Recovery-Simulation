@@ -136,14 +136,9 @@
     import locations from "../locations.js";
     
     let location_options = {};
-    
-    if(current_node == 1 || current_node == 0){
-        Object.assign(location_options, locations['luzon']);
-    }
-    if (current_node == 2 || current_node == 0){
-        Object.assign(location_options, locations['vismin']);
-    }
-    
+
+    Object.assign(location_options, locations['luzon']);
+    Object.assign(location_options, locations['vismin']);    
     const regions = Object.keys(location_options);
     const regionInput = document.querySelector(".RegionName .inputString");
     const provinceInput = document.querySelector(".Province .inputString");
