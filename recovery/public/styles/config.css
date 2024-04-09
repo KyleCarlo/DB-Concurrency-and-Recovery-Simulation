@@ -29,12 +29,6 @@ a{
     box-shadow: 0px 0px 5px var(--blue);
 }
 
-a:hover{
-    background-color: var(--orange);
-    color: black;
-    transition: 0.3s all;
-}
-
 .main {
     display: flex;
     flex-direction: column;
@@ -64,14 +58,14 @@ a:hover{
     background-blend-mode: soft-light;
 }
 
-.db-icon{
+/* .db-icon{
     cursor: pointer;
-}
+} */
 
-.db-icon:hover > path{
+/* .db-icon:hover > path{
     fill: var(--orange);
     transition: 0.3s;
-}
+} */
 
 .node-selection > section > h1 {
     color: var(--blue);
@@ -138,27 +132,27 @@ p{
     background-color: rgb(45, 141, 45);
 }
 
-.on-state:hover .btn-circle{
+/* .on-state:hover .btn-circle{
     transition: 0.3s all;
     left: -25px;
 }
 
 .on-state:hover {
     background-color: var(--btn-shadow);
-}
+} */
 
 .off-state{
     background-color: var(--btn-shadow);
 }
 
-.off-state:hover .btn-circle{
+/* .off-state:hover .btn-circle{
     transition: 0.3s all;
     left: 25px;
 }
 
 .off-state:hover {
     background-color: rgb(45, 141, 45);
-}
+} */
 
 .on-state .btn-circle{
     left: 25px;

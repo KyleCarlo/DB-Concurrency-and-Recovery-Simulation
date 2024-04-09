@@ -72,12 +72,14 @@ router.post("/", (req, res) => {
 
 router.get('/logNrecover', (req, res) => {
     let recoveryLogs = req.app.get('recoveryLogs');
+    
     res.render('index', {recoveryLogs: recoveryLogs});
 });
 
 router.post('/logNrecover', async (req, res) => {
     let recoveryLogs = req.app.get('recoveryLogs');
-    let newLog = await recovery();
+    const config = req.app.get('config');
+    let newLog = await recovery(config);
     if (newLog != null) {
         formatLog(newLog);
         recoveryLogs.push(newLog);

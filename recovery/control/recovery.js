@@ -32,7 +32,7 @@ async function replicate(source_id, source_node, target_node){
     }
 }
 
-export const recovery = async () => {
+export const recovery = async (config) => {
     var c1 = (await queries[0]('SELECT MAX(id) as id FROM logs WHERE node = "node_2";', [], 'logs', 'READ'))[0].id, // center - luzon   
         c2 = (await queries[0]('SELECT MAX(id) as id FROM logs WHERE node = "node_3";', [], 'logs', 'READ'))[0].id, // center - vismin
         luz = (await queries[1]("SELECT MAX(id) as id FROM logs", [], 'logs', 'READ'))[0].id,                       // node 2 - luz       
@@ -45,24 +45,31 @@ export const recovery = async () => {
     // LOGGING
     console.log("C1:", c1, "Luz:", luz, "C2:", c2, "Vismin:", vismin);
     
-    // CENTER -> LUZON
-    if (c1 > luz) {
-        return await replicate(luz + 1, 0, 1);
+    if (config[0] && config[1]){
+        // CENTER -> LUZON
+        if (c1 > luz) {
+            await db.promise().query('LOCK TABLES ' + table + ' ' + mode)
+            do{
+                luz = luz + 1;
+                await replicate(luz, 0, 1);
+            } while (c1 > luz);
+            // UNLOCK
+            // return await replicate(luz + 1, 0, 1);
+        }
+        // LUZON -> CENTER
+        if (luz > c1) {
+            return await replicate(c1 + 1, 1, 0);
+        }
     }
-    
-    // CENTER -> VISMIN
-    if (c2 > vismin) {
-        return await replicate(vismin + 1, 0, 2);
-    } 
-
-    // LUZON -> CENTER
-    if (luz > c1) {
-        return await replicate(c1 + 1, 1, 0);
-    }
-
-    // VISMIN -> CENTER
-    if (vismin > c2) {
-        return await replicate(c2 + 1, 2, 0);
+    if (config[0] && config[2]){
+        // CENTER -> VISMIN
+        if (c2 > vismin) {
+            return await replicate(vismin + 1, 0, 2);
+        } 
+        // VISMIN -> CENTER
+        if (vismin > c2) {
+            return await replicate(c2 + 1, 2, 0);
+        }
     }
 
     return null;
