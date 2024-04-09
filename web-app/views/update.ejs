@@ -110,27 +110,6 @@
                 <label for="clinic">Clinic</label>
             </div>
         </div>
-        <!-- REGION NAME -->
-        <div class="RegionName">
-            <label class="label" for="RegionName">Hospital/Clinic Region</label>
-            <select class="inputString" name="RegionName">
-                <!-- INSERT REGIONS -->
-            </select>
-        </div>
-        <!-- PROVINCE -->
-        <div class="Province">
-            <label class="label" for="Province">Hospital/Clinic Province</label>
-            <select class="inputString" name="Province">
-                <!-- INSERT PROVINCES -->
-            </select>
-        </div>
-        <!-- CITY -->
-        <div class="City">
-            <label class="label" for="City">Hospital/Clinic City</label>
-            <select class="inputString" name="City" disabled>
-                <!-- INSERT CITIES -->
-            </select>
-        </div>
         <!-- HOSPITALNAME -->
         <div class="hospitalname">
             <label class="label" for="hospitalname">Hospital/Clinic Name</label>
@@ -159,92 +138,8 @@
     </form>
 </body>
 <script type = module>
-    const current_node = "<%=db_selected%>";
-    import locations from "../locations.js";
-    
-    let location_options = {};
-    
-    if(current_node == 1 || current_node == 0){
-        Object.assign(location_options, locations['luzon']);
-    }
-    if (current_node == 2 || current_node == 0){
-        Object.assign(location_options, locations['vismin']);
-    }
-    
-    const regions = Object.keys(location_options);
-    const regionInput = document.querySelector(".RegionName .inputString");
-    const provinceInput = document.querySelector(".Province .inputString");
-    const cityInput = document.querySelector(".City .inputString");
     const specialtyInput = document.querySelector(".mainspecialty .inputString");
     const statusInput = document.querySelector(".status .inputString");
-    for (let index = 0; index < regions.length; index++) {
-        let element = document.createElement("option");
-        element.innerHTML = "<options value=" + regions[index] + ">" + regions[index] + "</options>";
-        console.log(element);
-        regionInput.append(element);
-    }
-    regionInput.addEventListener("change", function(){
-        let selectedRegion = regionInput.value;
-        let provinces = Object.keys(location_options[selectedRegion]);
-        provinceInput.innerHTML = "";
-        for (let index = 0; index < provinces.length; index++) {
-            let element = document.createElement("option");
-            element.innerHTML = "<options value=" + provinces[index] + ">" + provinces[index] + "</options>";
-            provinceInput.append(element);
-        }
-        provinceInput.disabled = false;
-        provinceInput.selectedIndex = -1;
-        cityInput.disabled = true;
-        cityInput.innerHTML = "";
-        cityInput.value = "";
-    });
-    provinceInput.addEventListener("change", function(){
-        cityInput.disabled = false;
-        let selectedRegion = regionInput.value;
-        let selectedProvince = provinceInput.value;
-        let cities = location_options[selectedRegion][selectedProvince];
-        cityInput.innerHTML = "";
-        for (let index = 0; index < cities.length; index++) {
-            let element = document.createElement("option");
-            element.innerHTML = "<options value=" + cities[index] + ">" + cities[index] + "</options>";
-            cityInput.append(element);
-        }
-        cityInput.disabled = false;
-        cityInput.selectedIndex = -1;
-    });
-    const specialtyOptions = ["aesthetic, plastic, and reconstructive surgery", "dermatology","family and community medicine", "general medicine","general surgery", "hematology", "infectious diseases","internal medicine","lifestyle, functional, and integrative medicine","naturopathic medicine", "neurology", "obstetrics and gynecology","ophthalmology", "orthopedic surgery", "pediatrics", "pulmonology","veterinary medicine"];
-    for (let index = 0; index < specialtyOptions.length; index++) {
-        let element = document.createElement("option");
-        element.innerHTML = "<options value=" + specialtyOptions[index] + ">" + specialtyOptions[index] + "</options>";
-        specialtyInput.append(element);
-    }
-    let default_provinces;
-    let default_cities;
-    if(current_node == 2){
-        default_provinces = Object.keys(location_options["Western Visayas (VI)"]);
-    }
-    else {
-        default_provinces = Object.keys(location_options["National Capital Region (NCR)"]);
-    }
-    for (let index = 0; index < default_provinces.length; index++) {
-        let element = document.createElement("option");
-        element.innerHTML = "<options value=" + default_provinces[index] + ">" + default_provinces[index] + "</options>";
-        provinceInput.append(element);
-    }
-
-    if(current_node == 2){
-        default_cities = location_options["Western Visayas (VI)"]["Iloilo"];
-    }
-    else {
-        default_cities = location_options["National Capital Region (NCR)"]["Manila"];
-    }
-    for (let index = 0; index < default_cities.length; index++) {
-        let element = document.createElement("option");
-        element.innerHTML = "<options value=" + default_cities[index] + ">" + default_cities[index] + "</options>";
-        cityInput.append(element);
-    }
-    cityInput.selectedIndex = -1;
-    provinceInput.selectedIndex = -1;
     specialtyInput.selectedIndex = -1;
     statusInput.selectedIndex = -1;
 </script>

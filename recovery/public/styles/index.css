@@ -13,7 +13,9 @@
 }
 
 body {
-    padding: 50px;
+    overflow: hidden;
+    padding: 10px;
+    margin: 0 10px;
     background-color: var(--primary-color);
     font-family: var(--def-font);
     color: var(--secondary-color);
@@ -34,7 +36,7 @@ table {
 
 tr{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
 }
 
 th, td {

@@ -1,7 +1,6 @@
 import { Router } from "express";
 import {query1, query2, query3} from "./lib/dbs.js";
 import locations from "./lib/locations.js";
-import { config } from "dotenv";
 
 const router = Router();
 const queries = [query1, query2, query3];
@@ -201,16 +200,25 @@ router.post("/update", async (req, res) => {
         const existingAppointments = await query("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
         
         if (existingAppointments.length === 0) {
-            res.render('update', {error: {status: 'error', message: "Appointment NOT FOUND!"}});
+            res.render('update', {
+                error: {status: 'error', message: "Appointment NOT FOUND!"},
+                db_selected: db_selected
+            });
         } else {
             let query = queries[db_selected];
             await query("UPDATE appointments SET ? WHERE apptid = ?;", [req.body, apptid], 'WRITE');
             console.log("Appointment edited!");
-            res.render('update', {error: {status: 'ack', message: "Appointment updated!"}});
+            res.render('update', {
+                error: {status: 'ack', message: "Appointment updated!"},
+                db_selected: db_selected
+            });
         }
     } catch (error) {
         console.error('Error:', error);
-        return res.render('update', {error: {status: 'error', message: "Server error has occured!"}});
+        return res.render('update', {
+            error: {status: 'error', message: "Server error has occured!"}, 
+            db_selected: db_selected
+        });
     }
 });
 
