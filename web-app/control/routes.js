@@ -65,17 +65,6 @@ router.post("/config", (req, res) => {
         });
     }
 });
-
-function getNode(db_selected, config, req) {
-    if (config[db_selected] == false) {
-        if (locations.luzon[req.body.RegionName]) {
-            return 1;
-        }
-        return 2;
-    }
-    return 0;
-}
-
 // CREATE
 router.get("/create", (req, res) => {
     const db_selected = req.app.get('access');
@@ -87,7 +76,8 @@ router.get("/create", (req, res) => {
 
 router.post('/create', async (req, res) => {
     const config = req.app.get('config');
-    let db_selected = req.app.get('access');  // 0 - central; 1 - luzon; 2 - vismin
+    const location = Object.keys(locations['luzon']).includes(req.body.RegionName) ? 1 : 2;
+    let db_selected = config[0] ? 0 : location;
 
     let apptid = req.body.apptid;
     apptid = generateRandomString(32);
@@ -95,7 +85,6 @@ router.post('/create', async (req, res) => {
 
     while (appointmentExists) {
         try {
-            db_selected = getNode(db_selected, config, req);
             let query = queries[db_selected];
             const existingAppointments = await query("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ');
             
@@ -235,7 +224,6 @@ router.get("/read", (req, res) => {
 
 router.post('/read', async (req, res) => {
     const apptid = req.body.apptid;
-    let db_selected = req.app.get('access');
     const config = req.app.get('config');
     try {
         let result;
@@ -244,7 +232,7 @@ router.post('/read', async (req, res) => {
             if (result.length == 0) result = null;
         } else {
             result = [await queries[1]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ'),
-                           await queries[2]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ')];
+                      await queries[2]("SELECT * FROM appointments WHERE apptid = ?", apptid, 'READ')];
             if (result[0].length > 0){
                 result = result[0];
             } else if (result[1].length > 0) {
