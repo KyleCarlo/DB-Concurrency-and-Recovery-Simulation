@@ -48,13 +48,7 @@ export const recovery = async (config) => {
     if (config[0] && config[1]){
         // CENTER -> LUZON
         if (c1 > luz) {
-            await db.promise().query('LOCK TABLES ' + table + ' ' + mode)
-            do{
-                luz = luz + 1;
-                await replicate(luz, 0, 1);
-            } while (c1 > luz);
-            // UNLOCK
-            // return await replicate(luz + 1, 0, 1);
+            return await replicate(luz + 1, 0, 1);
         }
         // LUZON -> CENTER
         if (luz > c1) {
