@@ -16,7 +16,6 @@ function formatNodename(node_index){
 }
 
 function formatLog(log) {
-    console.log(log.timestamp.toDateString() + " " + log.timestamp.toLocaleTimeString());
     log.timestamp = log.timestamp.toDateString() + " " + log.timestamp.toLocaleTimeString();
     log.source = formatNodename(log.source);
     log.target = formatNodename(log.target);

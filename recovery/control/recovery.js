@@ -35,7 +35,6 @@ async function replicate(source_id, source_node, target_node){
                 break;
             case 'DELETE':
                 statements += 'DELETE FROM appointments WHERE apptid = ?;';
-                values.push(data_toRep[index]);
                 values.push(data_toRep[index].apptid);
                 // await queries[target_node]('DELETE FROM appointments WHERE apptid = ?;', source_latest.apptid, 'appointments', 'WRITE');
                 break;
