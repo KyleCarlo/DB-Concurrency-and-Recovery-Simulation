@@ -4,7 +4,7 @@ const queries = [require('../lib/dbs.js').query1, require('../lib/dbs.js').query
 jest.setTimeout(60000);
 
 
-it('read concurrency test', async () => {
+it('read-read concurrency test', async () => {
     const ids = [
         'A3497E1AD4C71E62AFFAD4947BF12BE0',
         '8349958C2F977BB2B39ACCA84203E2FA'
