@@ -22,10 +22,12 @@
   "jest": {
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
-    }
+    },
+    "testTimeout": 60000
   },
   "devDependencies": {
     "@babel/core": "^7.24.4",
-    "@babel/preset-env": "^7.24.4"
+    "@babel/preset-env": "^7.24.4",
+    "jest-puppeteer": "^10.0.1"
   }
 }
