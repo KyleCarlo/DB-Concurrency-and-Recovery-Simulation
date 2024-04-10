@@ -73,7 +73,7 @@ export const recovery = async (config) => {
             return await replicate(luz + 1, 0, 1);
         }
         // LUZON -> CENTER
-        if (luz > c1) {
+        else if (luz > c1) {
             return await replicate(c1 + 1, 1, 0);
         }
     }
@@ -83,7 +83,7 @@ export const recovery = async (config) => {
             return await replicate(vismin + 1, 0, 2);
         } 
         // VISMIN -> CENTER
-        if (vismin > c2) {
+        else if (vismin > c2) {
             return await replicate(c2 + 1, 2, 0);
         }
     }
