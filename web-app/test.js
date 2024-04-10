@@ -1,5 +1,7 @@
 const puppeteer = require('puppeteer');
-jest.setTimeout(60*1000);
+const queries = [require('./control/lib/dbs.js').query1, require('./control/lib/dbs.js').query2, require('./control/lib/dbs.js').query3];
+
+jest.setTimeout(60000);
 
 
 it('read test', async () => {
@@ -7,12 +9,14 @@ it('read test', async () => {
         'A3497E1AD4C71E62AFFAD4947BF12BE0',
         '8349958C2F977BB2B39ACCA84203E2FA'
     ]
+    const queryLuzon  = await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[0], 'READ');
+    const queryVismin = await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[1], 'READ');
 
     const width = 1920;
     const height = 1080;
     const windowSize = '--window-size=' + width + ',' + height;
     const slowMo = 0; // in ms
-    browsers = [
+    const browsers = [
         await puppeteer.launch({
             headless: false,
             slowMo: slowMo,
@@ -55,8 +59,8 @@ it('read test', async () => {
             pages[1][1][0]
         ],
     ]
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
+    for (var i = 0; i < 2; i++) {
+        for (var j = 0; j < 2; j++) {
             await pages[i][j].goto('http://localhost:3000/');
             await pages[i][j].setViewport({width: width, height: height});
             await pages[i][j].click('#read');
@@ -75,6 +79,8 @@ it('read test', async () => {
     //         browsers[i].close();
     //     }
     // }
-
+    
+    expect(await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[0], 'READ')).toEqual(queryLuzon);
+    expect(await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[1], 'READ')).toEqual(queryVismin);
     
 });
