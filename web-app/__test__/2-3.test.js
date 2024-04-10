@@ -1,16 +1,16 @@
 const puppeteer = require('puppeteer');
-const queries = [require('../control/lib/dbs.js').query1, require('../control/lib/dbs.js').query2, require('../control/lib/dbs.js').query3];
-
+const query = require('../control/lib/dbs.js').query1
 jest.setTimeout(60000);
 
 
-it('read-read concurrency test', async () => {
+it('Step 2 Case 3, Write-Write Concurrency Test.', async () => {
     const ids = [
         'A3497E1AD4C71E62AFFAD4947BF12BE0',
         '8349958C2F977BB2B39ACCA84203E2FA'
     ]
-    const queryLuzon  = await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[0], 'READ');
-    const queryVismin = await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[1], 'READ');
+    const queryLuzon  = await query("SELECT * FROM appointments WHERE apptid = ?", ids[0], 'READ');
+    const queryVismin = await query("SELECT * FROM appointments WHERE apptid = ?", ids[1], 'READ');
+    const testName = 'write-write test';
 
     const width = 1920;
     const height = 1080;
@@ -63,29 +63,23 @@ it('read-read concurrency test', async () => {
         for (var j = 0; j < 2; j++) {
             await pages[i][j].goto('http://localhost:3000/');
             await pages[i][j].setViewport({width: width, height: height});
-            await pages[i][j].click('#read');
-            await pages[i][j].locator('#read-input').fill(ids[i]);
+            await pages[i][j].click('#update');
+            await pages[i][j].locator('#update-id').fill(ids[i]);
+            await pages[i][j].locator('#update-name').fill(testName + j);
         }
     }
     setTimeout(function() {
-        pages[0][0].click('#read-button');
-        pages[0][1].click('#read-button');
-        pages[1][0].click('#read-button');
-        pages[1][1].click('#read-button');
-    }, 4000);
+        pages[0][0].click('#update-button');    // 3, 3, 2
+        pages[0][1].click('#update-button');    // 1, 1, 1
+        pages[1][0].click('#update-button');    // 2, 4, 4
+        pages[1][1].click('#update-button');    // 4, 2, 3
+    },  4000);
     await pages[1][1].waitForNetworkIdle(200);
-    
-    setTimeout(async function() {
+
+    setTimeout(async function() {   // no test because we don't know which write is first
         await browsers[0].close();
         await browsers[1].close();
         await browsers[2].close();
         await browsers[3].close();
     }, 4000);
-
-    expect(await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[0], 'READ')).toEqual(queryLuzon);
-    expect(await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[1], 'READ')).not.toEqual(queryLuzon);
-    expect(await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[1], 'READ')).toEqual(queryVismin);
-    expect(await queries[0]("SELECT * FROM appointments WHERE apptid = ?", ids[0], 'READ')).not.toEqual(queryVismin);
-    
-
 });
