@@ -47,7 +47,7 @@
             </tr>
         </thead>
         <tbody>
-            <% appointmentReports.forEach(function(report) { %>
+            <% if (appointmentReports != null) appointmentReports.forEach(function(report) { %>
                 <tr>
                     <td><%= report.RegionName %></td>
                     <td><%= report.count %></td>

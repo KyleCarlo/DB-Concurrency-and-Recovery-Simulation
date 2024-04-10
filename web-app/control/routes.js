@@ -299,19 +299,34 @@ router.post('/delete', async (req, res) => {
 // REPORTS
 router.get("/reports", async (req, res) => {
     const config = req.app.get('config');
-    let appointmentReports;
+    let appointmentReports = [];
     try { 
         if (config[0])
             appointmentReports = await queries[0]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
         else {
-            Object.assign(appointmentReports, queries[1]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ'));
-            Object.assign(appointmentReports, queries[2]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ'));
+            let appointmentReports1 = await queries[1]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
+            let appointmentReports2 = await queries[2]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
+            // console.log(appointmentReports1, appointmentReports2);
+            let i1 = 0, i2 = 0;
+            for (let j = 0; j < appointmentReports1.length + appointmentReports2.length; j++) {
+                let appt1 = appointmentReports1[i1];
+                let appt2 = appointmentReports2[i2];
+                appt1 = appt1 == undefined ? 0 : appt1;
+                appt2 = appt2 == undefined ? 0 : appt2;
+                if (appt1.count > appt2.count) {
+                    appointmentReports.push(appt1);
+                    i1++;
+                } else {
+                    appointmentReports.push(appt2);
+                    i2++;
+                }
+            }
         }
         
         if (appointmentReports.length === 0) {
             res.render('reports', {
                 error: {status: 'error', message: "No Appointments in the DB!"},
-                appointmentReports: appointmentReports
+                appointmentReports: null
             });
         }
     } catch (error) {
@@ -321,10 +336,10 @@ router.get("/reports", async (req, res) => {
             appointmentReports: null
         });
     }
-
+    
     res.render('reports', {
         error: null,
-        appointmentReports: null
+        appointmentReports: appointmentReports
     });
 });
 
