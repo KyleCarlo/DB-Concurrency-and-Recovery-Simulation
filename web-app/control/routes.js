@@ -298,25 +298,33 @@ router.post('/delete', async (req, res) => {
 
 // REPORTS
 router.get("/reports", async (req, res) => {
-    let db_selected = req.app.get('access');
-    let appointmentReports = [];
-    try {
-        db_selected = getNode(db_selected, config, req);    
-        let query = queries[db_selected];
-        appointmentReports = await query("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
+    const config = req.app.get('config');
+    let appointmentReports;
+    try { 
+        if (config[0])
+            appointmentReports = await queries[0]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ');
+        else {
+            Object.assign(appointmentReports, queries[1]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ'));
+            Object.assign(appointmentReports, queries[2]("SELECT RegionName, COUNT(apptid) AS count FROM appointments GROUP BY RegionName ORDER BY COUNT(apptid) DESC;",  '', 'READ'));
+        }
         
         if (appointmentReports.length === 0) {
-            res.render('reports', {error: {status: 'error', message: "No Appointments in the DB!"}});
+            res.render('reports', {
+                error: {status: 'error', message: "No Appointments in the DB!"},
+                appointmentReports: appointmentReports
+            });
         }
     } catch (error) {
         console.error('Error:', error);
-        return res.render('reports', {error: {status: 'error', message: "Server error has occured!"}});
+        return res.render('reports', {
+            error: {status: 'error', message: "Server error has occured!"},
+            appointmentReports: null
+        });
     }
 
     res.render('reports', {
         error: null,
-        db_selected: db_selected,
-        appointmentReports: appointmentReports
+        appointmentReports: null
     });
 });
 
