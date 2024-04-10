@@ -9,8 +9,8 @@ describe('Step 2', () => {
         '8349958C2F977BB2B39ACCA84203E2FA'
     ];
     const buttonId = '#btn-2';
-    const width = 1920;
-    const height = 1080;
+    const width = 1280;
+    const height = 720;
     const windowSize = '--window-size=' + width + ',' + height;
     const slowMo = 0; // in ms
     var firstLuzon;

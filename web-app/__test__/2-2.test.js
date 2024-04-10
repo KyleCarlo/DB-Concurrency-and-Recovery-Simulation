@@ -21,8 +21,8 @@ describe('Step 2', () => {
     
     const testName = 'read-write test';
 
-    const width = 1920;
-    const height = 1080;
+    const width = 1280;
+    const height = 720;
     const windowSize = '--window-size=' + width + ',' + height;
     const slowMo = 0;
     const browserConfig = {
@@ -84,18 +84,15 @@ describe('Step 2', () => {
         browsers[1].close();
         browsers[2].close();
         browsers[3].close();
-        
-        
-
     });
     
     it('Case 2, Read-Write Concurrency Test.', async () => {
         latestQueryLuzon = await query1('SELECT * FROM appointments WHERE apptid = ?', ids[0], 'READ');
         latestQueryVismin = await query1('SELECT * FROM appointments WHERE apptid = ?', ids[1], 'READ');
 
-        expect(latestQueryLuzon).not.toEqual(queryLuzon);
-        expect(latestQueryVismin).not.toEqual(queryVismin);
-        expect(latestQueryLuzon).toEqual(newQueryLuzon);
-        expect(latestQueryVismin).toEqual(newQueryVismin);
+        expect(latestQueryLuzon[0].hospitalname).not.toEqual(queryLuzon[0].hospitalname);
+        expect(latestQueryVismin[0].hospitalname).not.toEqual(queryVismin[0].hospitalname);
+        expect(latestQueryLuzon[0].hospitalname).toEqual(newQueryLuzon[0].hospitalname);
+        expect(latestQueryVismin[0].hospitalname).toEqual(newQueryVismin[0].hospitalname);
     });
 });

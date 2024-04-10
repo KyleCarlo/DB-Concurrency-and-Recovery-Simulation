@@ -21,8 +21,8 @@ describe('Step 2', () => {
 
     const testName = 'write-write test';
 
-    const width = 1920;
-    const height = 1080;
+    const width = 1280;
+    const height = 720;
     const windowSize = '--window-size=' + width + ',' + height;
     const slowMo = 0;
     const browserConfig = {
@@ -78,9 +78,6 @@ describe('Step 2', () => {
         browsers[1].close();
         browsers[2].close();
         browsers[3].close();
-        
-        
-
     });
     
     it('Case 3, Write-Write Concurrency Test.', async () => {

@@ -10,8 +10,8 @@ describe('Step 3', () =>{
     ]
     const testName = 'luzon-node-down-write-test-';
     const buttonId = '#btn-2';
-    const width = 1920;
-    const height = 1080;
+    const width = 1280;
+    const height = 720;
     const windowSize = '--window-size=' + width + ',' + height;
     const slowMo = 0; // in ms
 

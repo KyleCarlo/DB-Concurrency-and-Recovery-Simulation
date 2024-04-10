@@ -13,8 +13,8 @@ describe('Step 2', () => {
     beforeAll(async () => {
         queryLuzon  = await query1("SELECT * FROM appointments WHERE apptid = ?", ids[0], 'READ');
         queryVismin = await query1("SELECT * FROM appointments WHERE apptid = ?", ids[1], 'READ');
-        const width = 1920;
-        const height = 1080;
+        const width = 1280;
+        const height = 720;
         const windowSize = '--window-size=' + width + ',' + height;
         const slowMo = 0; // in ms
         const browserConfig = {
