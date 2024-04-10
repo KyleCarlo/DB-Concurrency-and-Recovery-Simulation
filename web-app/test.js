@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer');
 jest.setTimeout(60*1000);
 
 
-it('browser', async () => {
+it('read test', async () => {
     const ids = [
         'A3497E1AD4C71E62AFFAD4947BF12BE0',
         '8349958C2F977BB2B39ACCA84203E2FA'
@@ -11,52 +11,70 @@ it('browser', async () => {
     const width = 1920;
     const height = 1080;
     const windowSize = '--window-size=' + width + ',' + height;
-    console.log(windowSize)
-
-    browser = await puppeteer.launch({
-        headless: false,
-        slowMo: 0,
-        args: [windowSize]
-    });
+    const slowMo = 0; // in ms
+    browsers = [
+        await puppeteer.launch({
+            headless: false,
+            slowMo: slowMo,
+            args: [windowSize]
+        }),
+        await puppeteer.launch({
+            headless: false,
+            slowMo: slowMo,
+            args: [windowSize]
+        }),
+        await puppeteer.launch({
+            headless: false,
+            slowMo: slowMo,
+            args: [windowSize]
+        }),
+        await puppeteer.launch({
+            headless: false,
+            slowMo: slowMo,
+            args: [windowSize]
+        })
+    ];
     
     let pages = [
         [   // luzon node
-            await browser.newPage(),
-            await browser.newPage()
+            await browsers[0].pages(),
+            await browsers[1].pages()
         ],
         [   // vismin node
-            await browser.newPage(),
-            await browser.newPage()
+            await browsers[2].pages(),
+            await browsers[3].pages()
         ]
     ]
-
+    pages = [ // idk why browsers[0].pages()[0] does not work to select blank page
+        [
+            pages[0][0][0],
+            pages[0][1][0]
+        ],
+        [
+            pages[1][0][0],
+            pages[1][1][0]
+        ],
+    ]
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
             await pages[i][j].goto('http://localhost:3000/');
             await pages[i][j].setViewport({width: width, height: height});
-            await pages[i][j].bringToFront();
             await pages[i][j].click('#read');
-        }
-    }
-    await pages[1][1].waitForNetworkIdle({idleTime: 100});
-    
-	for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            await pages[i][j].bringToFront();
             await pages[i][j].locator('#read-input').fill(ids[i]);
         }
     }
-	for (i = 0; i < 2; i++) {
-        for (j = 0; j < 2; j++) {
-            await pages[i][j].bringToFront();
-            await pages[i][j].click('#read-button');
-        }
-    }
+    setTimeout(function() {
+        pages[0][0].click('#read-button');
+        pages[0][1].click('#read-button');
+        pages[1][0].click('#read-button');
+        pages[1][1].click('#read-button');
+    }, 4000);
+
+	// for (i = 0; i < 2; i++) {
+    //     for (j = 0; j < 2; j++) {
+    //         browsers[i].close();
+    //     }
+    // }
 
     
-    //await pages[0][0].click('button');
-
-
-
-	//await browser.close();
 });
