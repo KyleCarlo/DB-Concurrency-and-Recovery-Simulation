@@ -74,7 +74,7 @@
 
 # Authors
 
-- Kyle Carlo C. Lasala
 - Sealtiel B. Dy
+- Kyle Carlo C. Lasala
 - Maria Monica Manlises
 - Camron Evan C. Ong
